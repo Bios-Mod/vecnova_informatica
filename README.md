@@ -57,6 +57,48 @@ npm run check:assets
 
 ---
 
+## Estructura del Repositorio
+
+```text
+vecnova_informatica/
+├── .github/
+│   └── workflows/ci.yml    # CI/CD: validaciones (PR/push) y despliegue automático a AWS (push main)
+├── .pre-commit-config.yaml # Configuración de hooks pre-commit (gitleaks e higiene)
+├── .nvmrc                  # Versión de Node.js fijada (Node 22)
+├── .env.example            # Plantilla de variables de entorno (claves vacías)
+├── LICENSE                 # Licencia de código abierto MIT
+├── README.md               # Descripción técnica de la web y arquitectura
+├── package.json
+├── astro.config.mjs
+├── deploy/                 # Plantillas de contingencia para proveedores alternativos
+│   ├── cloudflare/         # Plantilla _headers para Cloudflare Pages
+│   ├── github-pages/       # Flujo deploy-pages.yml para GitHub Pages
+│   ├── netlify/            # Plantilla _headers para Netlify
+│   └── vercel/             # Plantilla vercel.json para Vercel
+├── infra/                  # Infraestructura como código (Terraform)
+│   └── site/               # S3 privado, CloudFront OAC, ACM, Route 53 y rol IAM OIDC
+├── public/
+│   ├── brand/              # Logotipos e iconos de marca (PNG, ICO)
+│   └── third-party-notices.txt # Inventario oficial de licencias y atribución de código
+├── scripts/
+│   ├── backup-state.sh     # Respaldo seguro y rotación del tfstate local
+│   ├── check-assets.mjs    # Validador de existencia de recursos estáticos en dist/
+│   ├── check-launch.mjs    # Validador de preparación para el lanzamiento
+│   └── deploy.sh           # Compilación, sincronización a S3 e invalidación en CloudFront
+└── src/
+    ├── config/
+    │   └── site.ts         # Configuración central tipada (datos de marca y contacto)
+    ├── components/         # Componentes UI (Navbar, Footer, SphereHero, NetworkNodes, TerminalCard, TechIcon, ThemeToggle)
+    ├── layouts/            # Plantilla base (BaseLayout.astro con anti-FOUT y reactividad OS)
+    ├── pages/              # Rutas (index, servicios, proyectos, sobre-nosotros, contacto, aviso-legal, privacidad, 404)
+    ├── scripts/            # Scripts del cliente (scroll-reveal.js con GSAP)
+    └── styles/             # Estilos globales y tokens Tailwind (con @custom-variant dark)
+```
+
+La documentación estratégica y el registro de decisiones de arquitectura se mantienen en un repositorio privado independiente.
+
+---
+
 ## Prácticas de Seguridad
 
 - **Control de secretos:** Cero credenciales de larga duración en GitHub o en el código fuente. Despliegues automatizados mediante roles temporales asumidos por OIDC.
