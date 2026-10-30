@@ -1,0 +1,114 @@
+---
+/**
+ * BaseLayout.astro — Layout común para todas las páginas.
+ * Incluye la barra de navegación fija y el pie de página.
+ * El contenido se inyecta con <slot />.
+ */
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { siteConfig, withBase, hasValidSiteUrl } from '../config/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = 'Soluciones informáticas a medida para particulares y pymes',
+  noindex = false,
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const cleanSite = hasValidSiteUrl ? siteConfig.url.replace(/\/+$/, '') : '';
+const canonicalUrl = cleanSite ? `${cleanSite}${currentPath}` : '';
+const shouldNoindex = noindex || !siteConfig.isLaunch;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+    {shouldNoindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph y Metadatos de Redes Sociales -->
+    <meta property="og:title" content={`${title} — ${siteConfig.name}`} />
+    <meta property="og:description" content={description} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} — ${siteConfig.name}`} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Favicon e iconos de marca -->
+    <link rel="icon" href={withBase('/brand/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase('/brand/favicon-32.png')} />
+    <link rel="apple-touch-icon" href={withBase('/brand/apple-touch-icon.png')} />
+    <title>{title} — {siteConfig.name}</title>
+
+    <!-- Tipografía corporativa principal: Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Inicializador de tema síncrono (Anti-FOUT) y reactividad al sistema operativo -->
+    <script is:inline>
+      (function() {
+        try {
+          const stored = localStorage.getItem('theme');
+          const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || (!stored && systemDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (_) {}
+
+        // Reactividad en caliente ante cambios en los ajustes del dispositivo/sistema operativo
+        try {
+          const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+          const handleDeviceThemeChange = function(e) {
+            // Cuando el usuario cambia el tema en su dispositivo, respetamos esa acción y reseteamos el bloqueo manual
+            try {
+              localStorage.removeItem('theme');
+            } catch (_) {}
+
+            if (e.matches) {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: e.matches ? 'dark' : 'light' } }));
+          };
+
+          if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', handleDeviceThemeChange);
+          } else if (mediaQuery.addListener) {
+            mediaQuery.addListener(handleDeviceThemeChange);
+          }
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col text-[#073642] dark:text-[#839496] font-light bg-[#fdf6e3] dark:bg-[#002b36] transition-colors duration-300">
+    <Navbar currentPath={currentPath} />
+
+    <!-- Espacio para la barra fija (h-16 = 64px) -->
+    <div class="pt-16 flex-1">
+      <slot />
+    </div>
+
+    <Footer />
+  </body>
+</html>

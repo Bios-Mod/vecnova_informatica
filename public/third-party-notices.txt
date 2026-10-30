@@ -1,0 +1,154 @@
+Third-Party Notices and Licenses
+================================
+
+This document details third-party software, libraries, code snippets, and brand assets utilized in Vecnova Informática (https://vecnova.es).
+
+--------------------------------------------------------------------------------
+1. SOFTWARE & CODE LIBRARIES
+--------------------------------------------------------------------------------
+
+1.1 Scroll Reveal Effect (CodePen)
+----------------------------------
+Name:       Reveal animations based on scroll direction
+Author:     GSAP (GreenSock)
+URL:        https://codepen.io/GreenSock/pen/pojzxwZ
+License:    MIT License
+Location:   src/scripts/scroll-reveal.js (bundled in production JavaScript)
+
+Copyright (c) 2026 by GSAP (https://codepen.io/GreenSock/pen/pojzxwZ)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+1.2 GSAP with ScrollTrigger Plugin
+----------------------------------
+Name:       GSAP (GreenSock Animation Platform) & ScrollTrigger Plugin
+Author:     GreenSock, Inc.
+URL:        https://gsap.com/
+License:    Standard GSAP License (free for commercial and non-commercial use)
+Terms:      https://gsap.com/community/standard-license/
+Notes:      GSAP core and the ScrollTrigger plugin are used under GreenSock's Standard License, which permits free use in websites and applications where end-users are not charged a recurring fee to view the content.
+
+
+1.3 Astro Framework & Tailwind CSS
+----------------------------------
+Name:       Astro
+Author:     Astro Technology Company
+URL:        https://astro.build/
+License:    MIT License
+URL:        https://github.com/withastro/astro/blob/main/LICENSE
+
+Name:       Tailwind CSS
+Author:     Tailwind Labs Inc.
+URL:        https://tailwindcss.com/
+License:    MIT License
+URL:        https://github.com/tailwindlabs/tailwindcss/blob/main/LICENSE
+
+
+1.4 Clarification regarding Three.js
+------------------------------------
+Note: While initially considered, three.js is not imported, packaged, nor bundled into the published JavaScript of this site. The 3D geodesic sphere in the hero section (src/components/SphereHero.astro) and the network nodes background (src/components/NetworkNodes.astro) are implemented entirely using native HTML5 Canvas 2D trigonometric mathematics without third-party 3D engine dependencies.
+
+
+--------------------------------------------------------------------------------
+2. VECTOR ICON GEOMETRIES & LOGOTYPES
+--------------------------------------------------------------------------------
+
+2.1 Simple Icons Vector Path Dataset
+------------------------------------
+Name:       Simple Icons
+Author:     Simple Icons Contributors
+URL:        https://simpleicons.org/
+Repository: https://github.com/simple-icons/simple-icons
+License:    CC0 1.0 Universal (Public Domain Dedication)
+Location:   src/components/tech-icons-data.json
+Terms:      To the extent possible under law, Simple Icons contributors have waived all copyright and related or neighboring rights to the vector paths and SVG coordinates.
+
+
+2.2 Nominative Brand Trademarks
+-------------------------------
+The brand logotypes included in the technology showcase (src/components/tech-icons-data.json) are trademarks of their respective owners. They are used nominatively and solely for technical identification and compatibility reference:
+
+* Ubuntu:
+  Owner:    Canonical Ltd.
+  Terms:    Canonical Intellectual Property Rights Policy (https://canonical.com/intellectual-property-policy)
+
+* Docker:
+  Owner:    Docker, Inc.
+  Terms:    Docker Brand Guidelines (https://www.docker.com/legal/trademark-guidelines/)
+
+* Kubernetes:
+  Owner:    The Linux Foundation
+  Terms:    Linux Foundation Trademark Guidelines (https://www.linuxfoundation.org/trademark-usage)
+
+* Terraform:
+  Owner:    HashiCorp, Inc. / IBM
+  Terms:    HashiCorp Trademark Policy (https://www.hashicorp.com/brand)
+
+* Ansible:
+  Owner:    Red Hat, Inc.
+  Terms:    Red Hat Trademark Guidelines (https://www.redhat.com/en/about/trademark-guidelines)
+
+* NGINX:
+  Owner:    F5, Inc.
+  Terms:    F5 Trademark Usage (https://www.f5.com/company/policies/trademarks)
+
+* Prometheus:
+  Owner:    The Linux Foundation (CNCF)
+  Terms:    Linux Foundation Trademark Guidelines (https://www.linuxfoundation.org/trademark-usage)
+
+* Grafana:
+  Owner:    Grafana Labs
+  Terms:    Grafana Labs Trademark Policy (https://grafana.com/trademark-policy/)
+
+* WireGuard:
+  Owner:    Jason A. Donenfeld
+  Terms:    WireGuard is a registered trademark of Jason A. Donenfeld (https://www.wireguard.com/)
+
+* Astro:
+  Owner:    Astro Technology Company
+  Terms:    Astro Brand & Trademark Guidelines (https://astro.build/press/)
+
+* Tailwind CSS:
+  Owner:    Tailwind Labs Inc.
+  Terms:    Tailwind CSS Brand Guidelines (https://tailwindcss.com/brand)
+
+* GitHub Actions:
+  Owner:    GitHub, Inc. / Microsoft Corporation
+  Terms:    GitHub Brand Assets (https://github.com/logos)
+
+* Helm:
+  Owner:    The Linux Foundation (CNCF)
+  Terms:    Linux Foundation Trademark Guidelines (https://www.linuxfoundation.org/trademark-usage)
+
+* Amazon Web Services (AWS):
+  Owner:    Amazon Web Services, Inc. / Amazon.com, Inc.
+  Terms:    AWS Trademark Guidelines (https://aws.amazon.com/trademark-guidelines/)
+
+
+--------------------------------------------------------------------------------
+3. PARTNER ASSETS
+--------------------------------------------------------------------------------
+
+3.1 MonteStack Logo
+-------------------
+Asset:      public/montestack-logo.png
+Author:     MonteStack (Iván Montes)
+URL:        https://montestack.vercel.app/
+Terms:      Used with express mutual authorization in accordance with decision P-021 (technical collaboration agreement between MonteStack and Vecnova Informática).

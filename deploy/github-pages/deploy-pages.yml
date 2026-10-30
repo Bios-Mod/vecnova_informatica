@@ -1,0 +1,64 @@
+name: Deploy GitHub Pages (Manual)
+
+# Flujo de contingencia con disparo exclusivamente manual (workflow_dispatch)
+# Sin credenciales ni referencias a AWS.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    name: Build & Publish to Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+        env:
+          PUBLIC_SITE_OWNER: ${{ vars.PUBLIC_SITE_OWNER }}
+          PUBLIC_SITE_NIE: ${{ vars.PUBLIC_SITE_NIE }}
+          PUBLIC_SITE_ADDRESS: ${{ vars.PUBLIC_SITE_ADDRESS }}
+          PUBLIC_SITE_EMAIL: ${{ vars.PUBLIC_SITE_EMAIL }}
+          PUBLIC_SITE_PHONE: ${{ vars.PUBLIC_SITE_PHONE }}
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          PUBLIC_BASE_PATH: ${{ vars.PUBLIC_BASE_PATH }}
+          PUBLIC_LAUNCH: ${{ vars.PUBLIC_LAUNCH || 'true' }}
+
+      - name: Prevent Jekyll processing (.nojekyll)
+        # GitHub Pages ignora carpetas que empiezan por guion bajo (_astro/) si no existe .nojekyll
+        run: touch dist/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

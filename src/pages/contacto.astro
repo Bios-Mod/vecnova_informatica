@@ -1,0 +1,196 @@
+---
+/**
+ * contacto.astro — Página de Contacto directo.
+ * Canales directos visibles y accesibles en cliente sin backend.
+ *
+ * Reglas de diseño y contenido (P-012, P-034, T-012):
+ *   - Canales directos siempre visibles (email y teléfono).
+ *   - Sin formularios de captura invasivos ni sobreingeniería.
+ *   - Estética Solarized Light (#fdf6e3, #073642, #2b424a, #586e75, #268bd2, #2aa198) con red de nodos ambiental y TerminalCard.
+ *   - Coreografía alternada GSAP ScrollTrigger (Izquierda -> Derecha).
+ *   - Tono directo, positivo y profesional, sin justificaciones defensivas ni textos redundantes.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NetworkNodes from '../components/NetworkNodes.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import {
+  siteConfig,
+  withBase,
+  hasRealEmail,
+  hasRealPhone,
+  getTelUrl,
+} from '../config/site';
+---
+
+<BaseLayout
+  title="Contacto directo"
+  description={`Contacta directamente con ${siteConfig.shortName}. Canales directos de soporte informático, mantenimiento de equipos e infraestructura cloud en Barcelona y remoto.`}
+>
+  <!-- Red de nodos ambiental de fondo en toda la web -->
+  <NetworkNodes />
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <!-- Cabecera de Contacto: Sobria, centrada y con entrada suave -->
+    <header class="py-16 sm:py-24 text-center max-w-3xl mx-auto">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight hero-blur-in transition-colors">
+        Contáctanos
+      </h1>
+      <p class="hero-blur-in mt-4 text-base sm:text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+        Atención presencial en Barcelona y soporte remoto para particulares y pequeñas empresas.
+      </p>
+    </header>
+
+    <!-- Momento 1: Canales directos — Entra desde la izquierda con GSAP -->
+    <section id="canales" class="min-h-[60vh] flex flex-col justify-center py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Nuestros canales
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Atención de lunes a viernes en horario laboral.
+        </p>
+      </div>
+
+      <div class:list={[
+        'grid gap-6 lg:gap-8',
+        hasRealEmail && hasRealPhone ? 'sm:grid-cols-2' : 'max-w-xl mx-auto w-full',
+      ]}>
+        {hasRealEmail && (
+          <TerminalCard>
+            <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+              Correo electrónico
+            </h3>
+
+            <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base mb-6 transition-colors">
+              Ideal para describir tu problema con detenimiento, compartir capturas de pantalla, archivos o detallar los requerimientos de tu proyecto.
+            </p>
+
+            <div class="mt-auto space-y-3">
+              <div class="p-3 rounded-xl bg-[#fdf6e3]/90 dark:bg-[#00212b]/90 border border-[#d8d0bb] dark:border-[#0a4756] flex items-center justify-between gap-2 transition-colors">
+                <span class="font-mono text-sm sm:text-base font-semibold text-[#073642] dark:text-[#eee8d5] select-all truncate">{siteConfig.email}</span>
+                <button
+                  type="button"
+                  class="copy-btn text-xs font-medium px-2.5 py-1.5 rounded-lg bg-[#eee8d5] dark:bg-[#073642] text-[#073642] dark:text-[#eee8d5] hover:bg-[#268bd2] hover:text-white dark:hover:bg-[#268bd2] dark:hover:text-white transition-all shrink-0 cursor-pointer"
+                  data-copy={siteConfig.email}
+                  aria-label="Copiar correo al portapapeles"
+                >
+                  Copiar
+                </button>
+              </div>
+
+              <a
+                href={`mailto:${siteConfig.email}?subject=Consulta%20${encodeURIComponent(siteConfig.name)}`}
+                class="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] shadow-xs hover:shadow transition-all"
+              >
+                Abrir correo
+                <span class="ml-1.5">↗</span>
+              </a>
+            </div>
+          </TerminalCard>
+        )}
+
+        {hasRealPhone && (
+          <TerminalCard>
+            <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+              Teléfono
+            </h3>
+
+            <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base mb-6 transition-colors">
+              Canal directo para llamadas, solventar dudas rápidas, consultar disponibilidad presencial o coordinar revisiones de equipos.
+            </p>
+
+            <div class="mt-auto space-y-3">
+              <div class="p-3 rounded-xl bg-[#fdf6e3]/90 dark:bg-[#00212b]/90 border border-[#d8d0bb] dark:border-[#0a4756] flex items-center justify-between gap-2 transition-colors">
+                <span class="font-mono text-sm sm:text-base font-semibold text-[#073642] dark:text-[#eee8d5] select-all truncate">{siteConfig.phone}</span>
+                <button
+                  type="button"
+                  class="copy-btn text-xs font-medium px-2.5 py-1.5 rounded-lg bg-[#eee8d5] dark:bg-[#073642] text-[#073642] dark:text-[#eee8d5] hover:bg-[#2aa198] hover:text-white dark:hover:bg-[#2aa198] dark:hover:text-white transition-all shrink-0 cursor-pointer"
+                  data-copy={siteConfig.phone}
+                  aria-label="Copiar teléfono al portapapeles"
+                >
+                  Copiar
+                </button>
+              </div>
+
+              <a
+                href={getTelUrl()}
+                class="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-white bg-[#2aa198] rounded-xl hover:bg-[#23837b] shadow-xs hover:shadow transition-all text-center"
+              >
+                Llamar
+                <span class="ml-1.5">↗</span>
+              </a>
+            </div>
+          </TerminalCard>
+        )}
+
+        {!hasRealEmail && !hasRealPhone && (
+          <TerminalCard>
+            <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+              Canales directos en preparación
+            </h3>
+            <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+              Los canales de contacto directo se activarán en el lanzamiento oficial. Mientras tanto, puedes explorar nuestro catálogo de servicios y proyectos.
+            </p>
+          </TerminalCard>
+        )}
+      </div>
+    </section>
+
+    <!-- Momento 2: Cierre hacia Servicios y Proyectos — Entra desde la derecha con GSAP -->
+    <section class="py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] text-center gs_reveal gs_reveal_fromRight">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          ¿Quieres conocer más detalles técnicos?
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Revisa el desglose de lo que hacemos o explora los proyectos y repositorios documentados con código real.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={withBase('/servicios/')}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] shadow-sm hover:shadow transition-all"
+          >
+            Ver catálogo de servicios
+          </a>
+          <a
+            href={withBase('/proyectos/')}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-medium text-[#073642] dark:text-[#eee8d5] bg-[#eee8d5] dark:bg-[#073642] border border-[#d8d0bb] dark:border-[#0a4756] rounded-xl hover:border-[#268bd2] dark:hover:border-[#2aa198] transition-colors"
+          >
+            Explorar proyectos y arquitectura →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Lógica interactiva en cliente (Portapapeles) -->
+  <script>
+    import '../scripts/scroll-reveal.js';
+
+    // Copia al portapapeles con feedback instantáneo
+    function setupCopyButtons() {
+      document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const textToCopy = btn.getAttribute('data-copy');
+          if (!textToCopy) return;
+
+          try {
+            await navigator.clipboard.writeText(textToCopy);
+            const originalText = btn.textContent;
+            btn.textContent = '¡Copiado!';
+            btn.classList.add('bg-[#268bd2]', 'text-white');
+            setTimeout(() => {
+              btn.textContent = originalText;
+              btn.classList.remove('bg-[#268bd2]', 'text-white');
+            }, 2000);
+          } catch (err) {
+            console.error('Error al copiar:', err);
+          }
+        });
+      });
+    }
+    setupCopyButtons();
+  </script>
+</BaseLayout>

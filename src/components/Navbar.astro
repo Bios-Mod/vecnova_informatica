@@ -1,0 +1,142 @@
+---
+/**
+ * Navbar.astro — Barra de navegación principal.
+ * Fija en la parte superior, fuera del flujo de scroll (P-032).
+ * En móvil, muestra un botón hamburguesa que despliega el menú.
+ */
+
+import ThemeToggle from './ThemeToggle.astro';
+import { siteConfig, withBase, isRealValue } from '../config/site';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const links = [
+  { href: withBase('/'), raw: '/', label: 'Inicio' },
+  { href: withBase('/servicios/'), raw: '/servicios/', label: 'Servicios' },
+  { href: withBase('/proyectos/'), raw: '/proyectos/', label: 'Proyectos' },
+  { href: withBase('/sobre-nosotros/'), raw: '/sobre-nosotros/', label: 'Sobre nosotros' },
+];
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#fdf6e3]/90 dark:bg-[#002b36]/90 backdrop-blur-md border-b border-[#e5dec9] dark:border-[#073642] transition-colors duration-300">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo / Marca -->
+      <a href={withBase('/')} class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] transition-colors flex items-center gap-2">
+        {isRealValue(siteConfig.logoPath) && (
+          <>
+            <img
+              src={withBase(siteConfig.logoPath)}
+              alt={siteConfig.name}
+              width="28"
+              height="28"
+              class="h-7 w-7 object-contain block dark:hidden"
+            />
+            <img
+              src={withBase(siteConfig.logoDarkPath)}
+              alt={siteConfig.name}
+              width="28"
+              height="28"
+              class="h-7 w-7 object-contain hidden dark:block"
+            />
+          </>
+        )}
+        <span>{siteConfig.name}</span>
+      </a>
+
+      <!-- Enlaces de escritorio -->
+      <div class="hidden md:flex items-center gap-5">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'text-sm font-medium transition-colors',
+              currentPath === link.href || currentPath === link.raw
+                ? 'text-[#268bd2]'
+                : 'text-[#657b83] hover:text-[#073642] dark:text-[#93a1a1] dark:hover:text-[#eee8d5]',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+
+        <a
+          href={withBase('/contacto/')}
+          class="ml-1 inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-colors shadow-xs"
+        >
+          Contactar
+        </a>
+
+        <!-- Conmutador de modo claro / oscuro Solarized -->
+        <ThemeToggle id="theme-toggle-desktop" />
+      </div>
+
+      <!-- Acciones móvil (Switch de tema + Botón hamburguesa) -->
+      <div class="md:hidden flex items-center gap-1.5">
+        <ThemeToggle id="theme-toggle-mobile" />
+
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          class="inline-flex items-center justify-center p-2 rounded-xl text-[#586e75] hover:text-[#073642] hover:bg-[#eee8d5]/80 dark:text-[#93a1a1] dark:hover:text-[#eee8d5] dark:hover:bg-[#073642]/80 transition-colors"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Abrir menú de navegación"
+        >
+          <!-- Icono hamburguesa -->
+          <svg id="menu-icon-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          <!-- Icono cerrar -->
+          <svg id="menu-icon-close" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menú móvil (oculto por defecto) -->
+  <div id="mobile-menu" class="md:hidden hidden border-t border-[#e5dec9] dark:border-[#073642] bg-[#fdf6e3] dark:bg-[#073642] transition-colors">
+    <div class="px-4 py-3 space-y-2">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            'block px-3 py-2 rounded-xl text-base font-medium transition-colors',
+            currentPath === link.href || currentPath === link.raw
+              ? 'text-[#268bd2] bg-[#eee8d5] dark:bg-[#002b36]'
+              : 'text-[#586e75] hover:text-[#073642] hover:bg-[#eee8d5]/60 dark:text-[#93a1a1] dark:hover:text-[#eee8d5] dark:hover:bg-[#002b36]/60',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href={withBase('/contacto/')}
+        class="block mt-2 text-center px-4 py-2.5 text-sm font-medium text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-colors shadow-xs"
+      >
+        Contactar
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  btn?.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('hidden');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+  });
+</script>

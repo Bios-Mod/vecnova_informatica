@@ -1,0 +1,7 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  # NOTA: Strict-Transport-Security (HSTS) y Content-Security-Policy (CSP) se definirán más tarde tras la fase de validación.
+  # Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  # Content-Security-Policy: default-src 'self';

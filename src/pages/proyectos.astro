@@ -1,0 +1,320 @@
+---
+/**
+ * proyectos.astro — Página de Proyectos técnicos y Tecnologías implementadas.
+ * Evidencia pública basada en repositorios reproducibles y arquitectura verificable.
+ *
+ * Reglas de diseño y contenido (P-009, P-022, P-025, T-012):
+ *   - Fichas técnicas limpias y compactas en formato TerminalCard (igual que en Servicios y Sobre nosotros).
+ *   - Sin switches ni tablas densas: explicación directa de objetivo, arquitectura, verificación medible y enlace al repo.
+ *   - Ficha de la web centrada en qué implementa y por qué (serverless, coste mínimo ~2-3 USD/mes, alta disponibilidad y cero mantenimiento).
+ *   - Nube interactiva de tecnologías (Logo Cloud / Marquee continuo):
+ *       * Dos cintas fluidas con animación continua y pausa en hover.
+ *       * Pastillas interactivas que actualizan una línea de inspección rápida estilo terminal al pasar el cursor o hacer clic.
+ *   - Paleta Solarized Light (#fdf6e3, #073642, #2b424a, #2aa198, #268bd2) con NetworkNodes y TerminalCard.
+ *   - Coreografía alternada GSAP ScrollTrigger (Izquierda -> Derecha -> Izquierda).
+ *   - Tono directo, positivo y profesional, sin rodeos ni justificaciones defensivas.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NetworkNodes from '../components/NetworkNodes.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import TechIcon from '../components/TechIcon.astro';
+import { siteConfig, withBase, isValidSiteUrl } from '../config/site';
+
+const rawRepoUrl = import.meta.env.PUBLIC_SITE_REPO_URL;
+const repoUrl = isValidSiteUrl(rawRepoUrl) ? rawRepoUrl!.trim() : null;
+
+// Tecnologías para el Logo Cloud continuo (Fila 1 y Fila 2) con logos oficiales SVG
+const TECH_ROW_1 = [
+  { icon: 'ubuntu', nombre: 'Ubuntu Linux' },
+  { icon: 'aws', nombre: 'Amazon Web Services' },
+  { icon: 'docker', nombre: 'Docker' },
+  { icon: 'kubernetes', nombre: 'Kubernetes' },
+  { icon: 'terraform', nombre: 'Terraform' },
+  { icon: 'ansible', nombre: 'Ansible' },
+  { icon: 'wireguard', nombre: 'WireGuard' },
+];
+
+const TECH_ROW_2 = [
+  { icon: 'nginx', nombre: 'Nginx' },
+  { icon: 'prometheus', nombre: 'Prometheus' },
+  { icon: 'grafana', nombre: 'Grafana' },
+  { icon: 'githubactions', nombre: 'GitHub Actions' },
+  { icon: 'helm', nombre: 'Helm' },
+  { icon: 'astro', nombre: 'Astro' },
+  { icon: 'tailwindcss', nombre: 'Tailwind CSS' },
+];
+---
+
+<BaseLayout
+  title="Proyectos técnicos y arquitectura de referencia"
+  description="Fichas técnicas con código real, auditorías reproducibles (Lynis 88/90), arquitectura serverless y tecnologías implementadas."
+>
+  <!-- Red de nodos ambiental de fondo en toda la web -->
+  <NetworkNodes />
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <!-- Cabecera de Proyectos: Sobria, centrada y con entrada suave -->
+    <header class="py-16 sm:py-24 text-center max-w-3xl mx-auto">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight hero-blur-in transition-colors">
+        Proyectos y tecnologías
+      </h1>
+
+      <!-- Navegación rápida por secciones (2 accesos directos estilo dock) -->
+      <nav class="hero-blur-in mt-8 sm:mt-10 inline-flex flex-wrap justify-center items-center gap-1 sm:gap-1.5 p-1.5 rounded-2xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] backdrop-blur-[3px] shadow-[inset_0_1px_0_0_rgba(253,246,227,0.8),0_2px_4px_rgba(7,54,66,0.03)] dark:shadow-[inset_0_1px_0_0_rgba(147,161,161,0.08),0_2px_4px_rgba(0,0,0,0.3)] transition-colors" aria-label="Navegación de secciones de proyectos">
+        <a
+          href="#proyectos"
+          class="nav-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Proyectos de referencia
+        </a>
+        <a
+          href="#tecnologias"
+          class="nav-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Tecnologías
+        </a>
+      </nav>
+    </header>
+
+    <!-- Momento 1: Fichas de proyectos — Entra desde la izquierda con GSAP -->
+    <section id="proyectos" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Proyectos de referencia
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Infraestructuras funcionales con código auditable, configuración reproducible y resultados medibles.
+        </p>
+      </div>
+
+      <!-- Fichas de proyectos interactivas (clicables directamente al repositorio) -->
+      <div class="space-y-5">
+
+        <!-- Ficha 1: build-your-infra -->
+        <a
+          href="https://github.com/Bios-Mod/build-your-infra"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group block cursor-pointer focus:outline-hidden"
+          aria-label="Ver repositorio de build-your-infra en GitHub"
+        >
+          <TerminalCard bodyClass="p-5 sm:p-6 flex flex-col justify-center">
+            <div class="mb-2.5">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#2aa198]/15 dark:bg-[#2aa198]/20 text-[#2aa198] border border-[#2aa198]/30">
+                Implementación de referencia
+              </span>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-bold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] font-mono mb-3 transition-colors">
+              build-your-infra
+            </h3>
+
+            <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
+              Aprovisionamiento y bastionado automatizado de servidores Linux (Ubuntu 24.04 LTS) en entornos virtualizados locales y en AWS. Diseñado bajo el principio de defensa en profundidad, coordina cortafuegos perimetral con UFW, baneo reactivo de intrusiones con Fail2Ban, confinamiento en el kernel mediante AppArmor, registro forense con auditd e integridad de archivos con AIDE. La administración remota se realiza mediante túnel WireGuard VPN cifrado, y el nivel de endurecimiento está verificado mediante auditoría automatizada con Lynis, alcanzando un índice de 88 sobre 100 en máquina local y 90 sobre 100 en AWS EC2.
+            </p>
+          </TerminalCard>
+        </a>
+
+        <!-- Ficha 2: containerize-your-infra -->
+        <a
+          href="https://github.com/Bios-Mod/containerize-your-infra"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group block cursor-pointer focus:outline-hidden"
+          aria-label="Ver repositorio de containerize-your-infra en GitHub"
+        >
+          <TerminalCard bodyClass="p-5 sm:p-6 flex flex-col justify-center">
+            <div class="mb-2.5">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#2aa198]/15 dark:bg-[#2aa198]/20 text-[#2aa198] border border-[#2aa198]/30">
+                Implementación de referencia
+              </span>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-bold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] font-mono mb-3 transition-colors">
+              containerize-your-infra
+            </h3>
+
+            <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
+              Empaquetado y aislamiento de servicios en contenedores Docker reproducibles, garantizando consistencia absoluta entre entornos de desarrollo y producción. Incorpora un proxy inverso Nginx como punto único de entrada seguro para terminación TLS y buffering de tráfico, junto con un stack de observabilidad continua basado en Prometheus y Grafana para monitorizar en tiempo real el consumo de recursos y la salud del sistema. La arquitectura incluye manifiestos declarativos y charts de Helm preparados para la orquestación elástica en Kubernetes.
+            </p>
+          </TerminalCard>
+        </a>
+
+        <!-- Ficha 3: Web de Vecnova Informática -->
+        {repoUrl ? (
+          <a
+            href={repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group block cursor-pointer focus:outline-hidden"
+            aria-label={`Ver repositorio de ${siteConfig.name} en GitHub`}
+          >
+            <TerminalCard bodyClass="p-5 sm:p-6 flex flex-col justify-center">
+              <div class="mb-2.5">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#268bd2]/15 dark:bg-[#268bd2]/20 text-[#268bd2] border border-[#268bd2]/30">
+                  Caso de estudio
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-bold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] font-mono mb-3 transition-colors">
+                Web de {siteConfig.name}
+              </h3>
+
+              <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
+                Caso de implementación real de arquitectura estática serverless en AWS: generación estática desacoplada con Astro y Tailwind CSS alojada en un bucket Amazon S3 privado, distribuida globalmente mediante CloudFront y protegida con Origin Access Control (OAC). Funciona como demostración técnica de alta disponibilidad, cifrado TLS de extremo a extremo y mantenimiento de servidores nulo con un coste operativo residual (~0,05–2 USD/mes).
+              </p>
+            </TerminalCard>
+          </a>
+        ) : (
+          <div>
+            <TerminalCard bodyClass="p-5 sm:p-6 flex flex-col justify-center">
+              <div class="mb-2.5">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#268bd2]/15 dark:bg-[#268bd2]/20 text-[#268bd2] border border-[#268bd2]/30">
+                  Caso de estudio
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-bold text-[#073642] dark:text-[#eee8d5] font-mono mb-3 transition-colors">
+                Web de {siteConfig.name}
+              </h3>
+
+              <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
+                Caso de implementación real de arquitectura estática serverless en AWS: generación estática desacoplada con Astro y Tailwind CSS alojada en un bucket Amazon S3 privado, distribuida globalmente mediante CloudFront y protegida con Origin Access Control (OAC). Funciona como demostración técnica de alta disponibilidad, cifrado TLS de extremo a extremo y mantenimiento de servidores nulo con un coste operativo residual (~0,05–2 USD/mes).
+              </p>
+            </TerminalCard>
+          </div>
+        )}
+
+      </div>
+    </section>
+
+    <!-- Momento 2: Tecnologías — Entra desde la derecha con GSAP -->
+    <section id="tecnologias" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromRight">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Tecnologías
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Herramientas y tecnologías que integran nuestros proyectos de infraestructura, contenedores y automatización.
+        </p>
+      </div>
+
+      <!-- Contenedor Logo Cloud con máscaras de difuminado lateral suave -->
+      <div class="marquee-wrapper relative overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] select-none">
+
+        <!-- Fila 1: Desplazamiento continuo hacia la izquierda -->
+        <div class="animate-marquee-left flex gap-3.5 mb-3.5">
+          {TECH_ROW_1.concat(TECH_ROW_1).map((tech) => (
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] hover:border-[#268bd2] dark:hover:border-[#268bd2] hover:bg-[#fdf6e3] dark:hover:bg-[#002b36] hover:shadow-[0_4px_16px_rgba(38,139,210,0.18)] dark:hover:shadow-[0_4px_16px_rgba(38,139,210,0.25)] transition-all shrink-0 cursor-default group">
+              <TechIcon name={tech.icon} class="w-6 h-6 text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors shrink-0" />
+              <span class="font-mono text-xs sm:text-sm font-semibold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors whitespace-nowrap">
+                {tech.nombre}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Fila 2: Desplazamiento continuo hacia la derecha -->
+        <div class="animate-marquee-right flex gap-3.5">
+          {TECH_ROW_2.concat(TECH_ROW_2).map((tech) => (
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] hover:border-[#268bd2] dark:hover:border-[#268bd2] hover:bg-[#fdf6e3] dark:hover:bg-[#002b36] hover:shadow-[0_4px_16px_rgba(38,139,210,0.18)] dark:hover:shadow-[0_4px_16px_rgba(38,139,210,0.25)] transition-all shrink-0 cursor-default group">
+              <TechIcon name={tech.icon} class="w-6 h-6 text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors shrink-0" />
+              <span class="font-mono text-xs sm:text-sm font-semibold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors whitespace-nowrap">
+                {tech.nombre}
+              </span>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Momento 3: Cierre hacia Servicios y Contacto — Entra desde la izquierda con GSAP -->
+    <section class="py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] text-center gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          ¿Necesitas una infraestructura similar para tu proyecto?
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Aprovisionamiento reproducible y migración a la nube de acuerdo a tus necesidades.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={withBase('/servicios/')}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] shadow-sm hover:shadow transition-all"
+          >
+            Ver catálogo de servicios
+          </a>
+          <a
+            href={withBase('/contacto/')}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-medium text-[#073642] dark:text-[#eee8d5] bg-[#eee8d5] dark:bg-[#073642] border border-[#d8d0bb] dark:border-[#0a4756] rounded-xl hover:border-[#268bd2] dark:hover:border-[#2aa198] transition-colors"
+          >
+            Contactar directamente →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Estilos y animaciones del Logo Cloud Marquee -->
+  <style>
+    @keyframes marquee-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes marquee-right {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+
+    .animate-marquee-left {
+      display: flex;
+      width: max-content;
+      animation: marquee-left 46s linear infinite;
+    }
+
+    .animate-marquee-right {
+      display: flex;
+      width: max-content;
+      animation: marquee-right 50s linear infinite;
+    }
+
+    .marquee-wrapper:hover .animate-marquee-left,
+    .marquee-wrapper:hover .animate-marquee-right {
+      animation-play-state: paused;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-marquee-left,
+      .animate-marquee-right {
+        animation: none;
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+
+  <!-- Lógica interactiva en cliente (Smooth Scroll y Reveal) -->
+  <script>
+    import '../scripts/scroll-reveal.js';
+
+    // Desplazamiento suave para la navegación interna del dock
+    document.querySelectorAll<HTMLAnchorElement>('.nav-pill').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
+        const href = anchor.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.pushState(null, '', href);
+          }
+        }
+      });
+    });
+  </script>
+</BaseLayout>

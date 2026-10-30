@@ -1,0 +1,131 @@
+---
+/**
+ * privacidad.astro — Política de privacidad y protección de datos personales.
+ * Estilo unificado con el sistema de diseño Solarized Light / Dark y TerminalCard.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NetworkNodes from '../components/NetworkNodes.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import { siteConfig, withBase } from '../config/site';
+---
+
+<BaseLayout
+  title="Política de privacidad"
+  description={`Información sobre el tratamiento de datos de carácter personal y derechos del usuario en ${siteConfig.name}.`}
+>
+  <NetworkNodes />
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10">
+
+    <header class="text-center max-w-2xl mx-auto mb-14">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight transition-colors">
+        Política de privacidad
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-[#586e75] dark:text-[#93a1a1] leading-relaxed transition-colors">
+        Información transparente sobre el tratamiento de datos personales conforme al Reglamento General de Protección de Datos (RGPD) y la LOPDGDD.
+      </p>
+    </header>
+
+    <div class="space-y-8">
+
+      <!-- 1. Responsable del tratamiento -->
+      <TerminalCard title="1. Responsable del tratamiento">
+        <div class="space-y-3 text-sm sm:text-base text-[#2b424a] dark:text-[#839496] leading-relaxed">
+          <p>
+            El responsable del tratamiento de los datos recabados con ocasión de las comunicaciones remitidas a través de este sitio web es:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 font-mono text-xs sm:text-sm">
+            <li><strong>Identidad:</strong> {siteConfig.owner}</li>
+            <li><strong>Actividad comercial:</strong> {siteConfig.name}</li>
+            <li><strong>Identificación fiscal (NIE/NIF):</strong> {siteConfig.idNumber}</li>
+            <li><strong>Domicilio:</strong> {siteConfig.address}</li>
+            <li><strong>Correo electrónico de contacto:</strong> {siteConfig.email}</li>
+          </ul>
+        </div>
+      </TerminalCard>
+
+      <!-- 2. Datos que se tratan y origen -->
+      <TerminalCard title="2. Datos que se tratan y ausencia de rastreo">
+        <div class="space-y-3 text-sm sm:text-base text-[#2b424a] dark:text-[#839496] leading-relaxed">
+          <p>
+            <strong>{siteConfig.name}</strong> trata exclusivamente los datos que el propio usuario decide remitir de forma voluntaria al ponerse en contacto a través del correo electrónico:
+          </p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Datos de contacto remitidos (dirección de correo electrónico, nombre).</li>
+            <li>El contenido técnico, descriptivo o documental que el usuario incluya libremente en el cuerpo de su consulta o solicitud de presupuesto.</li>
+          </ul>
+          <p class="font-semibold text-[#073642] dark:text-[#eee8d5] pt-2">
+            Garantías de privacidad del sitio web:
+          </p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong>Sin formularios de recogida:</strong> Este sitio web no contiene formularios de captura de datos en línea ni pasarelas de registro con almacenamiento en bases de datos remotas.</li>
+            <li><strong>Sin cookies de seguimiento ni herramientas de analítica:</strong> No se utilizan cookies analíticas (como Google Analytics u otros servicios de métricas invasivas), cookies de rastreo entre sitios ni cookies publicitarias de terceros.</li>
+            <li><strong>Preferencia técnica de interfaz en localStorage:</strong> La selección visual entre el modo claro y el modo oscuro (Solarized Light / Dark) se guarda de manera estrictamente local en el navegador del usuario utilizando la clave técnica <code>theme</code> mediante la API estándar <code>localStorage</code>. Este valor no se envía al servidor ni se comparte con terceros, limitándose a recordar su preferencia visual de navegación.</li>
+          </ul>
+        </div>
+      </TerminalCard>
+
+      <!-- 3. Finalidad del tratamiento -->
+      <TerminalCard title="3. Finalidad del tratamiento">
+        <div class="space-y-3 text-sm sm:text-base text-[#2b424a] dark:text-[#839496] leading-relaxed">
+          <p>
+            Los datos personales facilitados serán tratados con las siguientes finalidades exclusivas:
+          </p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Atender, tramitar y dar respuesta a las consultas, incidencias o peticiones de información enviadas por el usuario.</li>
+            <li>Elaborar y remitir valoraciones técnicas preliminares o presupuestos de servicios solicitados expresamente por el interesado.</li>
+            <li>Gestionar la relación profesional que pudiera derivarse de la aceptación de un encargo.</li>
+          </ul>
+        </div>
+      </TerminalCard>
+
+      <!-- 4. Base jurídica del tratamiento -->
+      <TerminalCard title="4. Base jurídica (legitimación)">
+        <div class="space-y-3 text-sm sm:text-base text-[#2b424a] dark:text-[#839496] leading-relaxed">
+          <p>
+            El tratamiento de los datos se fundamenta en:
+          </p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>El <strong>consentimiento inequívoco</strong> manifestado por el usuario al remitir su comunicación de consulta por correo electrónico (artículo 6.1.a del RGPD).</li>
+            <li>La <strong>aplicación de medidas precontractuales</strong> a petición del propio usuario para valorar los requerimientos del encargo y formalizar propuestas técnicas o presupuestos (artículo 6.1.b del RGPD).</li>
+          </ul>
+        </div>
+      </TerminalCard>
+
+      <!-- 5. Plazo de conservación -->
+      <TerminalCard title="5. Plazo de conservación de los datos">
+        <div class="space-y-3 text-sm sm:text-base text-[#2b424a] dark:text-[#839496] leading-relaxed">
+          <p>
+            Los datos personales proporcionados se conservarán durante el tiempo estrictamente indispensable para contestar la consulta formulada o atender la petición.
+          </p>
+          <p>
+            En caso de derivar en la contratación de servicios profesionales, los datos se mantendrán durante el plazo de vigencia de la relación contractual y, posteriormente, durante los plazos legalmente exigibles para atender posibles responsabilidades fiscales, contables y mercantiles. En caso de consultas informativas no continuadas, los datos serán eliminados con periodicidad razonable.
+          </p>
+        </div>
+      </TerminalCard>
+
+      <!-- 6. Ejercicio de derechos y reclamación -->
+      <TerminalCard title="6. Ejercicio de derechos y autoridad de control">
+        <div class="space-y-3 text-sm sm:text-base text-[#2b424a] dark:text-[#839496] leading-relaxed">
+          <p>
+            El usuario puede ejercer en cualquier momento sus derechos de <strong>acceso, rectificación, supresión, limitación del tratamiento, portabilidad y oposición</strong> mediante escrito dirigido al correo electrónico del responsable: <span class="font-mono text-xs sm:text-sm font-semibold text-[#073642] dark:text-[#eee8d5]">{siteConfig.email}</span>, indicando como referencia «Protección de datos» y acreditando debidamente su identidad.
+          </p>
+          <p>
+            Si el usuario considera que sus derechos no han sido adecuadamente atendidos o que el tratamiento de sus datos infringe la normativa aplicable, tiene derecho a presentar una reclamación ante la autoridad de control competente, en España la <strong>Agencia Española de Protección de Datos (AEPD)</strong>, a través de su sede electrónica en <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer" class="text-[#268bd2] hover:underline font-semibold">www.aepd.es</a> o por correo postal a C/ Jorge Juan, 6, 28001 Madrid.
+          </p>
+        </div>
+      </TerminalCard>
+
+    </div>
+
+    <div class="mt-14 text-center">
+      <a
+        href={withBase('/')}
+        class="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-all shadow-xs"
+      >
+        ← Volver al inicio
+      </a>
+    </div>
+
+  </main>
+</BaseLayout>

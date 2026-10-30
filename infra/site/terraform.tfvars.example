@@ -1,0 +1,15 @@
+# Ejemplo de variables para la infraestructura de Vecnova Informatica
+# Copia este archivo a terraform.tfvars para sobreescribir los valores por defecto si es necesario.
+
+# project                 = "vecnova"
+# region                  = "eu-west-1"
+# block_indexing          = true
+# price_class             = "PriceClass_100"
+# domain_name             = "ejemplo.invalid"
+# enable_custom_domain    = false
+# existing_hosted_zone_id = "Z0123456789ABCDEFGHIJ"
+# enable_hsts             = false
+# github_repository       = "usuario/repositorio"
+# create_oidc_provider    = true
+# github_owner_id         = "12345678"
+# github_repository_id    = "87654321"

@@ -1,0 +1,25 @@
+---
+/**
+ * TechIcon.astro — Renderizador de logotipos SVG técnicos oficiales.
+ * Utiliza fill="currentColor" para adaptarse automáticamente al esquema Solarized Light.
+ */
+import iconsData from './tech-icons-data.json';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className = 'w-6 h-6' } = Astro.props;
+const icon = (iconsData as Record<string, { viewBox: string; inner: string }>)[name];
+---
+
+{icon ? (
+  <svg
+    viewBox={icon.viewBox}
+    class={className}
+    fill="currentColor"
+    aria-hidden="true"
+    set:html={icon.inner}
+  />
+) : null}

@@ -1,0 +1,153 @@
+---
+/**
+ * avisos-de-terceros.astro — Página de atribución y licencias de software de terceros.
+ * Absorbe íntegramente la estética de la web (Solarized Light / Dark, TerminalCard, NetworkNodes).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NetworkNodes from '../components/NetworkNodes.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import { siteConfig, withBase } from '../config/site';
+---
+
+<BaseLayout
+  title="Avisos de terceros y licencias de software"
+  description={`Atribución de software de terceros, librerías de código abierto y licencias utilizadas en el desarrollo de la web de ${siteConfig.name}.`}
+>
+  <!-- Red de nodos ambiental de fondo -->
+  <NetworkNodes />
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10">
+
+    <!-- Cabecera de la página -->
+    <header class="text-center max-w-2xl mx-auto mb-14">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight transition-colors">
+        Avisos de terceros
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-[#586e75] dark:text-[#93a1a1] leading-relaxed transition-colors">
+        Reconocimiento y cumplimiento de licencias para las tecnologías y librerías abiertas que integran este sitio.
+      </p>
+      <div class="mt-4">
+        <a
+          href={withBase('/third-party-notices.txt')}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center text-xs font-mono text-[#268bd2] hover:text-[#1f73ad] dark:text-[#2aa198] dark:hover:text-[#268bd2] transition-colors"
+        >
+          Ver archivo raw (third-party-notices.txt) ↗
+        </a>
+      </div>
+    </header>
+
+    <!-- Lista de licencias en tarjetas terminal UNIX -->
+    <div class="space-y-8">
+
+      <!-- 1. Scroll Reveal Effect -->
+      <TerminalCard title="scroll-reveal.js / MIT">
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#d8d0bb]/60 dark:border-[#0a4756]/60 pb-3">
+            <div>
+              <h2 class="text-lg font-bold text-[#073642] dark:text-[#eee8d5] transition-colors">
+                Scroll Reveal Effect (CodePen)
+              </h2>
+              <p class="text-xs font-mono text-[#586e75] dark:text-[#93a1a1]">
+                Autor: GSAP (GreenSock) · <a href="https://codepen.io/GreenSock/pen/pojzxwZ" target="_blank" rel="noopener noreferrer" class="text-[#268bd2] hover:underline">codepen.io/GreenSock/pen/pojzxwZ</a>
+              </p>
+            </div>
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#2aa198]/15 text-[#2aa198] border border-[#2aa198]/30">
+              MIT License
+            </span>
+          </div>
+
+          <pre class="p-4 rounded-xl bg-[#e4dcce]/60 dark:bg-[#00171f] border border-[#d8d0bb] dark:border-[#0a4756] font-mono text-xs text-[#2b424a] dark:text-[#93a1a1] overflow-x-auto leading-relaxed whitespace-pre-wrap select-all">Copyright (c) 2026 by GSAP (https://codepen.io/GreenSock/pen/pojzxwZ)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</pre>
+        </div>
+      </TerminalCard>
+
+      <!-- 2. GSAP & ScrollTrigger -->
+      <TerminalCard title="GSAP / Standard License">
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#d8d0bb]/60 dark:border-[#0a4756]/60 pb-3">
+            <div>
+              <h2 class="text-lg font-bold text-[#073642] dark:text-[#eee8d5] transition-colors">
+                GSAP & ScrollTrigger Plugin
+              </h2>
+              <p class="text-xs font-mono text-[#586e75] dark:text-[#93a1a1]">
+                Autor: GreenSock, Inc. · <a href="https://gsap.com/community/standard-license/" target="_blank" rel="noopener noreferrer" class="text-[#268bd2] hover:underline">gsap.com/community/standard-license/</a>
+              </p>
+            </div>
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#268bd2]/15 text-[#268bd2] border border-[#268bd2]/30">
+              Standard GSAP License
+            </span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-[#2b424a] dark:text-[#839496] leading-relaxed transition-colors">
+            Utilizado bajo la Licencia Estándar de GreenSock, que autoriza su uso libre y gratuito (incluyendo proyectos y páginas comerciales) sin requerir membresía comercial de Club GSAP al no utilizar plugins de pago redistribuidos.
+          </p>
+        </div>
+      </TerminalCard>
+
+      <!-- 3. Iconografía vectorial (Simple Icons) -->
+      <TerminalCard title="Simple Icons / CC0 1.0">
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#d8d0bb]/60 dark:border-[#0a4756]/60 pb-3">
+            <div>
+              <h2 class="text-lg font-bold text-[#073642] dark:text-[#eee8d5] transition-colors">
+                Simple Icons (Geometría SVG de tecnologías)
+              </h2>
+              <p class="text-xs font-mono text-[#586e75] dark:text-[#93a1a1]">
+                Autores: Colaboradores de Simple Icons · <a href="https://simpleicons.org/" target="_blank" rel="noopener noreferrer" class="text-[#268bd2] hover:underline">simpleicons.org</a>
+              </p>
+            </div>
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#2aa198]/15 text-[#2aa198] border border-[#2aa198]/30">
+              CC0 1.0 Universal
+            </span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-[#2b424a] dark:text-[#839496] leading-relaxed transition-colors">
+            Las coordenadas y rutas vectoriales SVG de los logotipos técnicos mostrados en la nube de tecnologías provienen de Simple Icons, distribuidas bajo dedicación de Dominio Público CC0 1.0. Las marcas correspondientes (Ubuntu, Docker, Kubernetes, Terraform, etc.) son propiedad de sus respectivos titulares y se utilizan aquí exclusivamente con carácter nominativo e informativo.
+          </p>
+        </div>
+      </TerminalCard>
+
+      <!-- 4. Astro & Tailwind CSS -->
+      <TerminalCard title="Astro & Tailwind / MIT">
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#d8d0bb]/60 dark:border-[#0a4756]/60 pb-3">
+            <div>
+              <h2 class="text-lg font-bold text-[#073642] dark:text-[#eee8d5] transition-colors">
+                Astro & Tailwind CSS
+              </h2>
+              <p class="text-xs font-mono text-[#586e75] dark:text-[#93a1a1]">
+                Autores: Fred K. Schott / Astro Technology Company & Tailwind Labs Inc.
+              </p>
+            </div>
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#2aa198]/15 text-[#2aa198] border border-[#2aa198]/30">
+              MIT License
+            </span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-[#2b424a] dark:text-[#839496] leading-relaxed transition-colors">
+            El framework Astro y el motor de estilos Tailwind CSS v4 se distribuyen bajo licencia de código abierto MIT, permitiendo su uso, adaptación y compilación estática libre de restricciones.
+          </p>
+        </div>
+      </TerminalCard>
+
+    </div>
+
+    <!-- Cierre / Volver al inicio -->
+    <div class="mt-14 text-center">
+      <a
+        href={withBase('/')}
+        class="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-all shadow-xs"
+      >
+        ← Volver al inicio
+      </a>
+    </div>
+
+  </main>
+</BaseLayout>

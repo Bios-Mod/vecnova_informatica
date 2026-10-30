@@ -1,0 +1,48 @@
+---
+/**
+ * TerminalCard.astro — Componente base de contenedor estilo consola UNIX.
+ * Basado en la decisión T-012 (Sistema de diseño Solarized Light).
+ *
+ * Reglas de diseño:
+ * - Cabecera con 3 puntos discretos de terminal (rojo, amarillo, verde Solarized).
+ * - Fondo translúcido calibrado bg-[#eee8d5]/78 con backdrop-blur-[3px].
+ * - Borde suave #d8d0bb.
+ * - Halo azul Solarized al hacer hover (sin traslación vertical ni saltos físicos).
+ * - Regla estricta: No incluir tags ni badges en tarjetas informativas de incidencias o servicios.
+ */
+interface Props {
+  title?: string;
+  class?: string;
+  headerClass?: string;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  class: className = '',
+  headerClass = '',
+  bodyClass = 'p-6 sm:p-7 flex-1 flex flex-col justify-center',
+} = Astro.props;
+---
+
+<div class:list={[
+  "bg-[#eee8d5]/78 dark:bg-[#073642]/78 backdrop-blur-[3px] rounded-2xl border border-[#d8d0bb] dark:border-[#0a4756] shadow-[inset_0_1px_0_0_rgba(253,246,227,0.9),0_2px_4px_rgba(7,54,66,0.04)] dark:shadow-[inset_0_1px_0_0_rgba(147,161,161,0.08),0_4px_16px_rgba(0,0,0,0.35)] hover:border-[#268bd2] dark:hover:border-[#268bd2] hover:shadow-[inset_0_1px_0_0_rgba(253,246,227,1),0_14px_28px_-4px_rgba(38,139,210,0.22),0_4px_10px_-2px_rgba(38,139,210,0.12)] dark:hover:shadow-[inset_0_1px_0_0_rgba(38,139,210,0.2),0_14px_28px_-4px_rgba(38,139,210,0.3),0_4px_10px_-2px_rgba(38,139,210,0.2)] transition-all duration-300 overflow-hidden flex flex-col",
+  className
+]}>
+  <div class:list={[
+    "px-5 py-2.5 border-b border-[#d8d0bb]/80 dark:border-[#0a4756]/80 bg-[#e4dcce]/80 dark:bg-[#00212b]/80 backdrop-blur-[3px] flex items-center justify-between gap-1.5 select-none transition-colors",
+    headerClass
+  ]}>
+    <div class="flex items-center gap-1.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#dc322f]/80"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-[#b58900]/80"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-[#859900]/80"></span>
+    </div>
+    {title && (
+      <span class="text-xs font-mono text-[#586e75] dark:text-[#93a1a1] tracking-tight">{title}</span>
+    )}
+  </div>
+  <div class={bodyClass}>
+    <slot />
+  </div>
+</div>

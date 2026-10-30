@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/*
+ * Estilos del efecto de scroll (gs_reveal).
+ * Solo se ocultan cuando JavaScript está activo (clase js-enabled en <html>).
+ * Sin JS, los elementos permanecen visibles.
+ */
+.js-enabled .gs_reveal {
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.js-enabled .hero-blur-in {
+  opacity: 0;
+  visibility: hidden;
+  filter: blur(10px);
+  will-change: transform, opacity, filter;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  overflow-x: hidden;
+  font-family: var(--font-sans, 'Space Grotesk', sans-serif);
+}

@@ -1,0 +1,242 @@
+---
+/**
+ * SphereHero.astro — Esfera 3D geodésica rotatoria de nodos envolviendo el texto del Hero.
+ *
+ * Implementa renderizado en doble lienzo Canvas (semiesfera trasera en z-0 y frontal en z-20)
+ * para que el título y subtítulo (z-10) queden físicamente DENTRO de la esfera en 3D,
+ * tal como en la referencia visual.
+ */
+---
+
+<div id="sphere-wrapper" class="relative w-full flex-1 flex flex-col items-center justify-center -mt-4 sm:-mt-8 select-none">
+  <!-- Capa 1: Semiesfera trasera (gira por detrás del texto) -->
+  <canvas id="sphere-canvas-back" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+  <!-- Capa 2: Contenido del Hero (en el centro 3D exacto de la esfera) -->
+  <div class="relative z-10 max-w-4xl lg:max-w-5xl mx-auto px-4 pointer-events-auto text-center">
+    <slot />
+  </div>
+
+  <!-- Capa 3: Semiesfera frontal (gira por delante del texto) -->
+  <canvas id="sphere-canvas-front" class="absolute inset-0 w-full h-full pointer-events-none z-20"></canvas>
+</div>
+
+<script>
+  (function initSphere3D() {
+    const wrapper = document.getElementById('sphere-wrapper');
+    const canvasBack = document.getElementById('sphere-canvas-back') as HTMLCanvasElement | null;
+    const canvasFront = document.getElementById('sphere-canvas-front') as HTMLCanvasElement | null;
+
+    if (!wrapper || !canvasBack || !canvasFront) return;
+
+    const ctxBack = canvasBack.getContext('2d');
+    const ctxFront = canvasFront.getContext('2d');
+    if (!ctxBack || !ctxFront) return;
+
+    let animId: number | null = null;
+    let w = 0;
+    let h = 0;
+
+    // Generar vértices geodésicos en esfera 3D (equilibrio óptimo: 58 vértices)
+    const SPHERE_POINTS_COUNT = 58;
+    const phi = Math.PI * (3 - Math.sqrt(5)); // Ángulo áureo
+    const sphereVertices: { x: number; y: number; z: number }[] = [];
+
+    for (let i = 0; i < SPHERE_POINTS_COUNT; i++) {
+      const y = 1 - (i / (SPHERE_POINTS_COUNT - 1)) * 2;
+      const radiusAtY = Math.sqrt(1 - y * y);
+      const theta = phi * i;
+      const x = Math.cos(theta) * radiusAtY;
+      const z = Math.sin(theta) * radiusAtY;
+      sphereVertices.push({ x, y, z });
+    }
+
+    // Calcular aristas conectando vértices vecinos (geometría equilibrada con facetas claras)
+    const sphereEdges: [number, number][] = [];
+    const distanceThreshold = 0.52;
+    for (let i = 0; i < SPHERE_POINTS_COUNT; i++) {
+      for (let j = i + 1; j < SPHERE_POINTS_COUNT; j++) {
+        const p1 = sphereVertices[i];
+        const p2 = sphereVertices[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dz = p1.z - p2.z;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist < distanceThreshold) {
+          sphereEdges.push([i, j]);
+        }
+      }
+    }
+
+    // Rotación 3D continua y control suave con el ratón
+    let rotX = 0.2;
+    let rotY = 0.35;
+    let currentTiltX = 0;
+    let currentTiltY = 0;
+    let targetTiltX = 0;
+    let targetTiltY = 0;
+
+    const mouse = { x: -1000, y: -1000, active: false };
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = wrapper.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+
+      canvasBack.width = w * dpr;
+      canvasBack.height = h * dpr;
+      canvasFront.width = w * dpr;
+      canvasFront.height = h * dpr;
+
+      ctxBack.scale(dpr, dpr);
+      ctxFront.scale(dpr, dpr);
+    };
+
+    window.addEventListener('resize', resize);
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = wrapper.getBoundingClientRect();
+      if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+        mouse.active = true;
+
+        const normX = (mouse.x - w / 2) / (w / 2);
+        const normY = (mouse.y - h / 2) / (h / 2);
+        targetTiltY = normX * 0.18;
+        targetTiltX = -normY * 0.14;
+      } else {
+        mouse.active = false;
+        targetTiltX = 0;
+        targetTiltY = 0;
+      }
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.active = false;
+      targetTiltX = 0;
+      targetTiltY = 0;
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (animId) cancelAnimationFrame(animId);
+        animId = null;
+      } else if (!animId) {
+        render();
+      }
+    });
+
+    const render = () => {
+      ctxBack.clearRect(0, 0, w, h);
+      ctxFront.clearRect(0, 0, w, h);
+
+      // Rotación 3D pausada y serena (sin distraer)
+      rotY += 0.0009;
+      rotX += 0.00045;
+
+      currentTiltX += (targetTiltX - currentTiltX) * 0.04;
+      currentTiltY += (targetTiltY - currentTiltY) * 0.04;
+
+      const totalRotY = rotY + currentTiltY;
+      const totalRotX = rotX + currentTiltX;
+
+      const cosY = Math.cos(totalRotY);
+      const sinY = Math.sin(totalRotY);
+      const cosX = Math.cos(totalRotX);
+      const sinX = Math.sin(totalRotX);
+
+      // Centro de la esfera = centro exacto del contenedor del texto
+      const cx = w / 2;
+      const cy = h / 2;
+
+      // Radio de la esfera adaptado para ceñirse con amplitud al texto
+      const sphereRadius = Math.min(w * 0.42, Math.max(270, Math.min(h * 0.48, 390)));
+      const cameraDist = 800;
+
+      // Proyectar vértices en 3D
+      const projected = [];
+      for (let i = 0; i < SPHERE_POINTS_COUNT; i++) {
+        const p = sphereVertices[i];
+        // Rotación en Y
+        const x1 = p.x * cosY - p.z * sinY;
+        const z1 = p.z * cosY + p.x * sinY;
+        // Rotación en X
+        const y2 = p.y * cosX - z1 * sinX;
+        const z2 = z1 * cosX + p.y * sinX;
+        const x2 = x1;
+
+        const worldX = x2 * sphereRadius;
+        const worldY = y2 * sphereRadius;
+        const worldZ = z2 * sphereRadius;
+
+        const scale = cameraDist / (cameraDist + worldZ);
+        const projX = cx + worldX * scale;
+        const projY = cy + worldY * scale;
+
+        projected.push({
+          x: projX,
+          y: projY,
+          z: worldZ,
+          scale,
+          normZ: worldZ / sphereRadius, // de -1 a +1
+        });
+      }
+
+      // 1. Dibujar aristas: las de avgZ < 0 en ctxBack (detrás del texto) y avgZ >= 0 en ctxFront (delante)
+      for (let i = 0; i < sphereEdges.length; i++) {
+        const [i1, i2] = sphereEdges[i];
+        const p1 = projected[i1];
+        const p2 = projected[i2];
+        const avgZ = (p1.normZ + p2.normZ) / 2;
+
+        if (avgZ >= 0) {
+          // Arista frontal en Solarized Blue suave
+          ctxFront.beginPath();
+          ctxFront.moveTo(p1.x, p1.y);
+          ctxFront.lineTo(p2.x, p2.y);
+          const alpha = 0.22 + avgZ * 0.28;
+          ctxFront.strokeStyle = `rgba(38, 139, 210, ${alpha})`;
+          ctxFront.lineWidth = 1.05;
+          ctxFront.stroke();
+        } else {
+          // Arista trasera en Solarized Base1 tenue
+          ctxBack.beginPath();
+          ctxBack.moveTo(p1.x, p1.y);
+          ctxBack.lineTo(p2.x, p2.y);
+          const alpha = 0.10 + (avgZ + 1) * 0.13;
+          ctxBack.strokeStyle = `rgba(147, 161, 161, ${alpha})`;
+          ctxBack.lineWidth = 0.8;
+          ctxBack.stroke();
+        }
+      }
+
+      // 2. Dibujar nodos: los de z >= 0 en ctxFront y z < 0 en ctxBack
+      for (let i = 0; i < SPHERE_POINTS_COUNT; i++) {
+        const p = projected[i];
+
+        if (p.normZ >= 0) {
+          // Nodo frontal
+          ctxFront.beginPath();
+          const radius = 2.0 * p.scale;
+          ctxFront.arc(p.x, p.y, radius, 0, Math.PI * 2);
+          ctxFront.fillStyle = `rgba(38, 139, 210, ${0.45 + p.normZ * 0.35})`;
+          ctxFront.fill();
+        } else {
+          // Nodo trasero
+          ctxBack.beginPath();
+          const radius = 1.3 * p.scale;
+          ctxBack.arc(p.x, p.y, radius, 0, Math.PI * 2);
+          ctxBack.fillStyle = `rgba(147, 161, 161, ${0.16 + (p.normZ + 1) * 0.16})`;
+          ctxBack.fill();
+        }
+      }
+
+      animId = requestAnimationFrame(render);
+    };
+
+    resize();
+    render();
+  })();
+</script>

@@ -1,0 +1,56 @@
+---
+/**
+ * 404.astro — Página de error 404 (No encontrado).
+ * Integrada con el sistema de diseño Solarized Light / Dark y TerminalCard.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NetworkNodes from '../components/NetworkNodes.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import { siteConfig, withBase } from '../config/site';
+---
+
+<BaseLayout
+  title="404 — Página no encontrada"
+  description="La página que estás buscando no existe o ha sido movida."
+  noindex={true}
+>
+  <NetworkNodes />
+
+  <main class="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+    <div class="w-full max-w-xl">
+      <TerminalCard title="HTTP 404 / Not Found">
+        <div class="space-y-4">
+          <div class="font-mono text-sm sm:text-base text-[#586e75] dark:text-[#93a1a1] space-y-1">
+            <p><span class="text-[#2aa198]">$</span> curl -I {withBase('/recurso-inexistente')}</p>
+            <p class="text-[#dc322f] font-semibold">HTTP/2 404 Not Found</p>
+            <p class="text-xs">status: resource-not-found</p>
+          </div>
+
+          <div class="pt-4 border-t border-[#d8d0bb]/60 dark:border-[#0a4756]/60">
+            <h1 class="text-2xl sm:text-3xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">
+              Página no encontrada
+            </h1>
+            <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
+              La dirección que has introducido no coincide con ningún documento activo en el servidor. Puede que haya cambiado de ruta o que no esté disponible.
+            </p>
+          </div>
+
+          <div class="pt-4 flex flex-col sm:flex-row gap-3">
+            <a
+              href={withBase('/')}
+              class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-all shadow-xs text-center"
+            >
+              ← Volver al inicio
+            </a>
+            <a
+              href={withBase('/servicios/')}
+              class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-[#073642] dark:text-[#eee8d5] bg-[#eee8d5] dark:bg-[#073642] border border-[#d8d0bb] dark:border-[#0a4756] rounded-xl hover:border-[#268bd2] dark:hover:border-[#2aa198] transition-colors text-center"
+            >
+              Ver catálogo de servicios
+            </a>
+          </div>
+        </div>
+      </TerminalCard>
+    </div>
+  </main>
+</BaseLayout>

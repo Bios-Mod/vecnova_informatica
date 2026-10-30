@@ -1,0 +1,305 @@
+---
+/**
+ * servicios.astro — Catálogo de servicios profesionales.
+ * Estructurado en cuatro verbos según P-027, P-032 y services-catalog.md.
+ *
+ * Reglas de diseño y contenido (T-012, P-021, P-028, P-033, services-catalog.md):
+ *   - Estética Solarized Light (#fdf6e3, #073642, #2b424a, #586e75, #268bd2, #2aa198).
+ *   - Tarjetas terminal UNIX modulares (TerminalCard) con cabecera de 3 puntos (● ● ●), sin falsos nombres de archivo.
+ *   - Prohibición estricta: Cero números en los verbos y cero tags/badges informativos en tarjetas de servicios.
+ *   - Verbos en orden estricto: Resolvemos -> Mantenemos -> Ponemos a punto -> Migramos a la nube.
+ *   - Textos de tarjetas concisos y directos, sin bloques densos ni listas de viñetas superfluas.
+ *   - Ritmo y scroll fluido GSAP ScrollTrigger alternado (izquierda/derecha) y espaciado generoso idéntico a la Home.
+ *   - Desplazamiento suave (smooth scroll) al pulsar en los accesos directos de navegación.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NetworkNodes from '../components/NetworkNodes.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import { siteConfig, withBase } from '../config/site';
+---
+
+<BaseLayout
+  title="Servicios informáticos a medida"
+  description="Catálogo de servicios de soporte IT presencial en Barcelona, mantenimiento preventivo, puesta a punto e infraestructura cloud."
+>
+  <!-- Red de nodos ambiental de fondo en toda la web -->
+  <NetworkNodes />
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <!-- Cabecera de Servicios: Centrada, armónica y con entrada suave -->
+    <header class="py-16 sm:py-24 text-center max-w-3xl mx-auto">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight hero-blur-in transition-colors">
+        Servicios informáticos a medida
+      </h1>
+
+      <!-- Navegación rápida por verbos (barra unificada estilo dock / consola con entrada suave) -->
+      <nav class="hero-blur-in mt-8 sm:mt-10 inline-flex flex-wrap justify-center items-center gap-1 sm:gap-1.5 p-1.5 rounded-2xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] backdrop-blur-[3px] shadow-[inset_0_1px_0_0_rgba(253,246,227,0.8),0_2px_4px_rgba(7,54,66,0.03)] dark:shadow-[inset_0_1px_0_0_rgba(147,161,161,0.08),0_2px_4px_rgba(0,0,0,0.3)] transition-colors" aria-label="Navegación de secciones de servicios">
+        <a
+          href="#resolvemos"
+          class="nav-pill px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Resolvemos
+        </a>
+        <a
+          href="#mantenemos"
+          class="nav-pill px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Mantenemos
+        </a>
+        <a
+          href="#ponemos-a-punto"
+          class="nav-pill px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Ponemos a punto
+        </a>
+        <a
+          href="#migramos-a-la-nube"
+          class="nav-pill px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Migramos a la nube
+        </a>
+        <a
+          href="#condiciones"
+          class="nav-pill px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Cómo trabajamos
+        </a>
+      </nav>
+    </header>
+
+    <!-- Resolvemos — Entra desde la izquierda con GSAP -->
+    <section id="resolvemos" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Resolvemos
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Solución ágil de incidencias en equipos, sistemas operativos y periféricos.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6 lg:gap-8">
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Averías en equipos y problemas de arranque
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Ordenadores que no encienden, pantallazos de error, bloqueos súbitos o lentitud que impide trabajar. Diagnosticamos si el fallo reside en componentes físicos (disco, memoria, placa o fuente) o en el sistema operativo (Windows o macOS), aplicando la solución más directa: saneamiento, sustitución de piezas o instalación limpia con pruebas exhaustivas de estabilidad.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Impresoras, red local y periféricos
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Impresoras y escáneres que dejan de comunicarse tras actualizar el sistema, desajustes de controladores o redes WiFi con cortes y zonas sin cobertura. Configuramos periféricos compartidos en red, resolvemos incompatibilidades de controladores y optimizamos la conexión del router para trabajar con estabilidad continua.
+          </p>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Mantenemos — Entra desde la derecha con GSAP -->
+    <section id="mantenemos" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromRight">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Mantenemos
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Copias de seguridad automatizadas y revisiones preventivas para proteger tu información.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6 lg:gap-8">
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Copias de seguridad automatizadas y restauración
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Tus documentos de trabajo, contabilidad, proyectos o fotografías personales no pueden depender de un único disco vulnerable a roturas, pérdidas o ransomware. Diseñamos un sistema de copias periódico y automatizado (en soporte local o nube cifrada) y realizamos pruebas periódicas de restauración para certificar que los archivos se recuperan intactos cuando hace falta.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Revisiones periódicas y mantenimiento preventivo
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            El software desactualizado y la acumulación de datos temporales degradan el rendimiento de los equipos con el tiempo. Realizamos limpieza lógica de sistemas, controlamos los procesos de inicio, aplicamos parches de seguridad supervisados y monitorizamos la salud física de las unidades de almacenamiento para anticiparnos a cualquier fallo.
+          </p>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Ponemos a punto — Entra desde la izquierda con GSAP -->
+    <section id="ponemos-a-punto" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Ponemos a punto
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Mejora de hardware y despliegue seguro de redes locales y servidores Linux.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Ampliación y montaje de equipos
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Multiplicar la soltura de un ordenador cuesta una fracción de comprar uno nuevo. Sustituimos discos mecánicos por unidades SSD de alta velocidad, ampliamos memoria RAM compatible, renovamos pasta térmica y montamos equipos de sobremesa a medida según necesidades y presupuesto real.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Redes locales y conectividad segura
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Configuración y despliegue de redes fiables para oficinas y hogares: optimización de routers, sistemas WiFi Mesh para cobertura sin cortes, cableado para puestos con alta exigencia y túneles VPN seguros con WireGuard para conectar puestos remotos con la red interna.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard class="sm:col-span-2 lg:col-span-1">
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Servidores Linux y bastionado
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Instalación inicial y securización de servidores físicos o virtuales (Ubuntu 24.04). Aplicamos buenas prácticas desde el primer minuto: cortafuegos UFW, protección con Fail2Ban, perfiles AppArmor y configuraciones automatizadas con Ansible y Terraform para instalaciones reproducibles.
+          </p>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Migramos a la nube — Entra desde la derecha con GSAP -->
+    <section id="migramos-a-la-nube" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromRight">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Migramos a la nube
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Arquitectura cloud en AWS, contenedorización y despliegues reproducibles.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Infraestructura cloud en AWS
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Diseño e implementación en Amazon Web Services mediante infraestructura como código (Terraform). Desde entornos autocontenidos en EC2 hasta soluciones estáticas y serverless, integrando paneles de monitorización (Prometheus y Grafana) con traspaso íntegro para que conozcas el estado de tus servicios.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Contenedores y despliegues
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Empaquetamos tus aplicaciones y bases de datos en contenedores Docker para garantizar un comportamiento idéntico en cualquier servidor. Automatizamos el ciclo de publicación con GitHub Actions (CI/CD) y orquestación con Kubernetes cuando la escala del proyecto lo justifique.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard class="sm:col-span-2 lg:col-span-1">
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Desarrollo web y aplicaciones
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Cuando tu proyecto requiere una nueva aplicación web o software a medida, trabajamos en alianza con nuestro partner técnico montestack: ellos asumen el desarrollo de la aplicación y {siteConfig.name} diseña la infraestructura en la nube, seguridad y despliegue automatizado.
+          </p>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Cómo trabajamos — Entra desde la izquierda con GSAP -->
+    <section id="condiciones" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Cómo trabajamos
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Principios claros sobre disponibilidad, zona geográfica y modelo de intervención.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <TerminalCard>
+          <h3 class="text-lg font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">
+            Presencial y remoto
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] text-sm leading-relaxed transition-colors">
+            Priorizamos la atención presencial en <strong>Barcelona y alrededores</strong> para intervenciones físicas de hardware, montaje, cableado y diagnóstico directo. Atendemos de forma remota configuraciones de software e infraestructura cloud cuando la conexión lo permite.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-lg font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">
+            Horario laboral y proyectos acotados
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] text-sm leading-relaxed transition-colors">
+            Trabajamos en horario laboral con alcances definidos por encargo. No ofrecemos servicios de guardia 24/7 ni SLAs corporativos irreales. Cada actualización o migración se realiza en ventanas acordadas y con plan de vuelta atrás.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-lg font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">
+            Evaluación honesta de cada encargo
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] text-sm leading-relaxed transition-colors">
+            Evaluamos cada situación con sinceridad antes de presupuestar. Si una reparación no merece la pena frente a un recambio, o si una tecnología añade complejidad innecesaria a tu proyecto, te lo explicamos con claridad. Cuentas y correo se atienden bajo consulta.
+          </p>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Cierre / CTA hacia Contacto — Entra desde la derecha con GSAP -->
+    <section class="py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] text-center gs_reveal gs_reveal_fromRight">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          ¿Tienes otra incidencia o un proyecto en mente?
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Explícanos tu situación y te decimos exactamente por dónde empezar.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={withBase('/contacto/')}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] shadow-sm hover:shadow transition-all"
+          >
+            Cuéntanos tu problema
+          </a>
+          <a
+            href={withBase('/proyectos/')}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-medium text-[#073642] dark:text-[#eee8d5] bg-[#eee8d5] dark:bg-[#073642] border border-[#d8d0bb] dark:border-[#0a4756] rounded-xl hover:border-[#268bd2] dark:hover:border-[#2aa198] transition-colors"
+          >
+            Ver proyectos técnicos →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Control de scroll suave asistido para navegación de anclas internas -->
+  <script>
+    import '../scripts/scroll-reveal.js';
+
+    // Desplazamiento suave preciso con compensación de barra fija
+    document.querySelectorAll<HTMLAnchorElement>('.nav-pill').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
+        const href = anchor.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.pushState(null, '', href);
+          }
+        }
+      });
+    });
+  </script>
+</BaseLayout>

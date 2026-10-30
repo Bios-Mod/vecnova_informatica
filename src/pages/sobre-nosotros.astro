@@ -1,0 +1,215 @@
+---
+/**
+ * sobre-nosotros.astro — Página «Sobre nosotros».
+ * Presentación de Agustín Alvarez, criterio técnico, filosofía de trabajo y alianzas.
+ *
+ * Reglas de diseño y contenido (P-021, P-028, P-029, T-012):
+ *   - Título sobrio y directo: "Quién está detrás de Vecnova Informática".
+ *   - Estructura compacta en 3 momentos reales: Trayectoria (Agustín Alvarez), Filosofía de trabajo y Partners.
+ *   - Cero repetición de catálogo de servicios: el foco está en las personas, el criterio y la metodología.
+ *   - Agustín Alvarez: Técnico Superior en Infraestructuras de Tecnologías de la Información con 5 años en IT (sin CeX, sin CEO/Founder).
+ *   - Criterio positivo sin disculpas ni tono a la defensiva.
+ *   - Alianza técnica con MonteStack: reparto nítido integrado en subtítulo, tarjeta única con enlace directo a su web.
+ *   - Estética Solarized Light (#fdf6e3, #073642, #2b424a, #586e75, #268bd2, #2aa198) con red de nodos ambiental y TerminalCard.
+ *   - Coreografía alternada GSAP ScrollTrigger (Izquierda -> Derecha -> Izquierda -> Derecha).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NetworkNodes from '../components/NetworkNodes.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import { siteConfig, withBase } from '../config/site';
+---
+
+<BaseLayout
+  title="Sobre nosotros — Quién está detrás"
+  description={`Conoce a Agustín Alvarez, la trayectoria técnica detrás de ${siteConfig.name}, nuestra filosofía de trabajo y la alianza técnica con MonteStack.`}
+>
+  <!-- Red de nodos ambiental de fondo en toda la web -->
+  <NetworkNodes />
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <!-- Cabecera de Sobre nosotros: Sobria, centrada y con entrada suave -->
+    <header class="py-16 sm:py-24 text-center max-w-3xl mx-auto">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight hero-blur-in transition-colors">
+        Quién está detrás de {siteConfig.name}
+      </h1>
+
+      <!-- Navegación rápida por secciones compactas (3 accesos directos) -->
+      <nav class="hero-blur-in mt-8 sm:mt-10 inline-flex flex-wrap justify-center items-center gap-1 sm:gap-1.5 p-1.5 rounded-2xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] backdrop-blur-[3px] shadow-[inset_0_1px_0_0_rgba(253,246,227,0.8),0_2px_4px_rgba(7,54,66,0.03)] dark:shadow-[inset_0_1px_0_0_rgba(147,161,161,0.08),0_2px_4px_rgba(0,0,0,0.3)] transition-colors" aria-label="Navegación de secciones de sobre nosotros">
+        <a
+          href="#trayectoria"
+          class="nav-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Trayectoria
+        </a>
+        <a
+          href="#filosofia"
+          class="nav-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Filosofía de trabajo
+        </a>
+        <a
+          href="#alianzas"
+          class="nav-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
+        >
+          Partners
+        </a>
+      </nav>
+    </header>
+
+    <!-- Momento 1: Trayectoria y perfil profesional — Entra desde la izquierda con GSAP -->
+    <section id="trayectoria" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Agustín Alvarez
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Técnico Superior en Infraestructuras de Tecnologías de la Información.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            5 años en el sector IT
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Experiencia continuada resolviendo incidencias sobre el terreno. Conocer de primera mano el comportamiento físico de los equipos y las necesidades de los usuarios permite plantear soluciones directas, estables y adaptadas a cada caso.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Trato cercano
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Hablas y trabajas directamente con el técnico que analiza tu situación, diseña la solución adecuada y la ejecuta.
+          </p>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Momento 2: Filosofía de trabajo — Entra desde la derecha con GSAP -->
+    <section id="filosofia" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromRight">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Filosofía de trabajo
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Atención presencial en Barcelona y comunicación transparente.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Atención presencial en Barcelona
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Diagnóstico directo in situ para intervenciones físicas de hardware, cableado y revisiones de red. Tratar los equipos de primera mano permite resolver incidencias con mayor rapidez y precisión.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-3 transition-colors">
+            Comunicación clara y honesta
+          </h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Explicaciones de tú a tú, comprensibles y sin tecnicismos innecesarios. Evaluamos cada situación para recomendarte siempre la opción más práctica y razonable para tu caso.
+          </p>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Momento 3: Partners — Entra desde la izquierda con GSAP -->
+    <section id="alianzas" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Partners
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Colaboramos con especialistas para proyectos integrales.
+        </p>
+      </div>
+
+      <div class="max-w-2xl">
+        <TerminalCard>
+          <div class="flex items-center gap-3 mb-3">
+            <img
+              src={withBase('/montestack-logo.png')}
+              alt="Logo de MonteStack"
+              class="w-7 h-7 sm:w-8 sm:h-8 object-contain shrink-0"
+              width="32"
+              height="32"
+              loading="lazy"
+            />
+            <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] transition-colors">
+              MonteStack
+            </h3>
+          </div>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base mb-6 transition-colors">
+            Especialistas en análisis, desarrollo de software y plataformas web a medida. Asumen íntegramente la ingeniería de software y el código de la aplicación para proyectos que requieren soluciones digitales sólidas y escalables.
+          </p>
+          <div>
+            <a
+              href="https://montestack.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center text-sm font-semibold text-[#268bd2] hover:text-[#1f73ad] dark:hover:text-[#2aa198] group transition-colors"
+            >
+              Visitar montestack.vercel.app
+              <span class="ml-1.5 transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Cierre / CTA hacia Contacto y Servicios — Entra desde la derecha con GSAP -->
+    <section class="py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] text-center gs_reveal gs_reveal_fromRight">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          ¿Hablamos de tu caso?
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Cuéntanos qué necesitas y valoramos juntos la solución más directa y conveniente.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={withBase('/contacto/')}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] shadow-sm hover:shadow transition-all"
+          >
+            Cuéntanos tu problema
+          </a>
+          <a
+            href={withBase('/servicios/')}
+            class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-medium text-[#073642] dark:text-[#eee8d5] bg-[#eee8d5] dark:bg-[#073642] border border-[#d8d0bb] dark:border-[#0a4756] rounded-xl hover:border-[#268bd2] dark:hover:border-[#2aa198] transition-colors"
+          >
+            Ver catálogo de servicios →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Control de scroll suave asistido para navegación de anclas internas -->
+  <script>
+    import '../scripts/scroll-reveal.js';
+
+    // Desplazamiento suave con compensación de barra fija
+    document.querySelectorAll<HTMLAnchorElement>('.nav-pill').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
+        const href = anchor.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.pushState(null, '', href);
+          }
+        }
+      });
+    });
+  </script>
+</BaseLayout>

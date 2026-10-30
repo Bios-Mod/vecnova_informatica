@@ -1,0 +1,23 @@
+{
+  "name": "vecnova_informatica",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check:launch": "node scripts/check-launch.mjs",
+    "check:assets": "node scripts/check-assets.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.1",
+    "gsap": "^3.15.0",
+    "tailwindcss": "^4.3.3"
+  }
+}

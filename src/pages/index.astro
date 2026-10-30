@@ -1,0 +1,210 @@
+---
+/**
+ * index.astro — Página de inicio.
+ * Recorrido narrativo depurado según P-032.
+ *
+ * Configuración de diseño y flujo (T-012):
+ *   - Hero centrado con esfera 3D geodésica envolvente (SphereHero) y red de partículas ambiental (NetworkNodes).
+ *   - Contenedores modulares estilo consola UNIX (TerminalCard).
+ *   - Coreografía de scroll alternada GSAP: Izquierda (M2) -> Derecha (M3) -> Izquierda (M4) -> Derecha (M5).
+ *   - Prohibición estricta de tags en tarjetas informativas de incidencias o servicios.
+ *   - Cierre unificado y centrado óptico con línea divisoria punteada.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SphereHero from '../components/SphereHero.astro';
+import NetworkNodes from '../components/NetworkNodes.astro';
+import TerminalCard from '../components/TerminalCard.astro';
+import { withBase } from '../config/site';
+---
+
+<BaseLayout title="Soluciones informáticas a medida">
+  <!-- Red de nodos ambiental de fondo en toda la web (sin repulsión, pacífica) -->
+  <NetworkNodes />
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+    <!-- Momento 1: Cabecera con esfera 3D geodésica envolviendo el título -->
+    <section class="min-h-[calc(100vh-4rem)] supports-[height:100svh]:min-h-[calc(100svh-4rem)] flex flex-col items-center justify-center text-center py-16 sm:py-20 overflow-hidden">
+      <SphereHero>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[4.75rem] font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-[1.1] sm:leading-[1.12] hero-blur-in transition-colors">
+          <span class="block">Soluciones informáticas</span>
+          <span class="block mt-2 sm:mt-3 text-[#268bd2] transition-colors">
+            para particulares y pymes
+          </span>
+        </h1>
+
+        <!-- Subtítulo directo unificado (P-032) -->
+        <p class="mt-7 sm:mt-8 text-lg sm:text-xl md:text-2xl text-[#586e75] dark:text-[#93a1a1] max-w-3xl mx-auto font-normal leading-relaxed hero-blur-in transition-colors">
+          Soporte técnico presencial para tu día a día en Barcelona y soluciones de infraestructura cloud para tu negocio.
+        </p>
+      </SphereHero>
+    </section>
+
+    <!-- Momento 2: Reconocimiento — Entra desde la izquierda -->
+    <section id="situaciones" class="min-h-[85vh] flex flex-col justify-center py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          ¿Te suena alguna de estas situaciones?
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Estos son algunos de los problemas que resolvemos a diario.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6 lg:gap-8">
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">Tu equipo va lento o no arranca</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Archivos que tardan minutos en abrir, el sistema bloqueado tras encender o ventanas que no responden. Diagnosticamos, limpiamos y formateamos.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">Algo dejó de funcionar después de actualizar</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            La impresora ha dejado de responder, el escáner no enlaza o la conexión WiFi se desconecta sola. Localizamos el fallo de configuración o controladores y lo dejamos operativo.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">No quieres perder documentos y fotos</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Años de recuerdos personales, facturación o archivos de proyectos almacenados en un único disco susceptible de fallar. Diseñamos e implementamos copias de seguridad automáticas y seguras.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">El ordenador se ha quedado corto</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            El ordenador todavía tiene vida útil por delante, pero le falta soltura para el día a día. Instalamos discos SSD de alta velocidad, ampliamos memoria RAM y ponemos a punto el hardware.
+          </p>
+        </TerminalCard>
+      </div>
+    </section>
+
+    <!-- Momento 3: Lo que hacemos — Entra desde la derecha -->
+    <section class="min-h-[85vh] flex flex-col justify-center py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] gs_reveal gs_reveal_fromRight">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Lo que hacemos
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Asistencia informática para el día a día e infraestructura cloud para tu proyecto
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+        <TerminalCard>
+          <h3 class="text-2xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">Resolvemos</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Diagnóstico y reparación urgente de incidencias de hardware y software en ordenadores personales, caídas de red local y recuperación de puestos de trabajo.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-2xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">Mantenemos</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Copias de seguridad periódicas, protección de fotografías y documentos críticos, parches de seguridad y protocolos preventivos para evitar averías.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-2xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">Ponemos a punto</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Instalación de discos SSD de alta velocidad, ampliación de memoria RAM, optimización de routers y despliegue de redes corporativas o servidores Linux seguros.
+          </p>
+        </TerminalCard>
+
+        <TerminalCard>
+          <h3 class="text-2xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 transition-colors">Migramos a la nube</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] leading-relaxed text-sm sm:text-base transition-colors">
+            Configuración de sincronización cloud personal, migración de páginas web a AWS y contenedores con automatización y monitorización continua.
+          </p>
+        </TerminalCard>
+      </div>
+
+      <div class="mt-10">
+        <a href={withBase('/servicios/')} class="inline-flex items-center text-[#268bd2] font-semibold hover:text-[#1f73ad] dark:hover:text-[#2aa198] group text-base transition-colors">
+          Ver catálogo completo de servicios
+          <span class="ml-1.5 transition-transform group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Momento 4: Prueba (Infraestructura desplegada) — Entra desde la izquierda -->
+    <section class="min-h-[85vh] flex flex-col justify-center py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] gs_reveal gs_reveal_fromLeft">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
+          Infraestructura desplegada, documentada y reproducible
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Configuraciones y despliegues reales con repositorios públicos y métricas de seguridad verificadas.
+        </p>
+      </div>
+
+      <!-- Fichas de proyectos de referencia -->
+      <div class="grid sm:grid-cols-2 gap-6">
+        <TerminalCard bodyClass="p-6 sm:p-7 flex-1 flex flex-col">
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 font-mono transition-colors">build-your-infra</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] text-sm mb-4 leading-relaxed transition-colors">
+            Aprovisionamiento y bastionado de servidores Linux y entornos AWS gestionados con infraestructura como código en Terraform. Auditoría de seguridad automatizada con Lynis (88 en VM y 90 en EC2).
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-xs font-mono mt-auto">
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">Ubuntu 24.04</span>
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">AWS</span>
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">Terraform</span>
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">UFW / Fail2Ban</span>
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">WireGuard</span>
+          </div>
+        </TerminalCard>
+
+        <TerminalCard bodyClass="p-6 sm:p-7 flex-1 flex flex-col">
+          <h3 class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] mb-2 font-mono transition-colors">containerize-your-infra</h3>
+          <p class="text-[#2b424a] dark:text-[#839496] text-sm mb-4 leading-relaxed transition-colors">
+            Contenedorización de aplicaciones, proxy inverso con Nginx, orquestación con Kubernetes y Helm, y despliegue con GitHub Actions.
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-xs font-mono mt-auto">
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">Docker</span>
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">Kubernetes</span>
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">Helm</span>
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">Nginx</span>
+            <span class="bg-[#e4dcce] dark:bg-[#00212b] border border-[#d3cbb7] dark:border-[#0a4756] text-[#2aa198] font-medium px-2 py-0.5 rounded transition-colors">GitHub Actions</span>
+          </div>
+        </TerminalCard>
+      </div>
+
+      <div class="mt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <a href={withBase('/proyectos/')} class="inline-flex items-center text-[#268bd2] font-semibold hover:text-[#1f73ad] dark:hover:text-[#2aa198] group text-base transition-colors">
+          Explorar proyectos y arquitectura técnica
+          <span class="ml-1.5 transition-transform group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Momento 5: Cierre (¿Hablamos?) — Entra desde la derecha -->
+    <section id="hablamos" class="min-h-screen flex flex-col justify-center pt-32 pb-14 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] gs_reveal gs_reveal_fromRight">
+      <div class="max-w-3xl mx-auto text-center w-full">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] mb-4 transition-colors">
+          ¿Hablamos?
+        </h2>
+        <p class="text-xl sm:text-2xl text-[#2b424a] dark:text-[#93a1a1] max-w-2xl mx-auto mb-10 font-normal transition-colors">
+          Cuéntanos qué necesitas y encontramos una solución a tu medida
+        </p>
+
+        <!-- Botón único simple sin texto innecesario -->
+        <div class="flex justify-center">
+          <a
+            href={withBase('/contacto/')}
+            class="inline-flex items-center justify-center px-8 py-4 text-base sm:text-lg font-semibold text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] shadow-sm hover:shadow transition-all"
+          >
+            Contactar
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    import '../scripts/scroll-reveal.js';
+  </script>
+</BaseLayout>

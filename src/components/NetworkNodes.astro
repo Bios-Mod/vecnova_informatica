@@ -1,0 +1,166 @@
+---
+/**
+ * NetworkNodes.astro — Red de nodos ambiental para toda la web.
+ *
+ * Fondo continuo de Canvas 2D nativo a pantalla completa (-z-10):
+ * - Nodos flotantes con deriva suave y conexiones sutiles.
+ * - Sin física de repulsión (deriva pacífica y constante).
+ * - Conexión reactiva suave al ratón cuando pasa cerca.
+ * - Fondo 100% limpio (sin cuadrícula ni interferencias).
+ */
+---
+
+<canvas
+  id="network-nodes-canvas"
+  class="fixed inset-0 pointer-events-none select-none -z-10 w-full h-full block"
+  aria-hidden="true"
+></canvas>
+
+<script>
+  (function initNetworkNodes() {
+    const canvas = document.getElementById('network-nodes-canvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number | null = null;
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+
+    interface NodePoint {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      isDeep: boolean;
+    }
+
+    let nodes: NodePoint[] = [];
+    const mouse = { x: -1000, y: -1000, active: false };
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+      populateNodes();
+    };
+
+    const populateNodes = () => {
+      // Densidad calibrada: ~75 nodos en pantallas de escritorio para una constelación más rica
+      const count = Math.min(75, Math.floor((w * h) / 17000));
+      nodes = [];
+      for (let i = 0; i < count; i++) {
+        const isDeep = i % 5 >= 2; // 60% capa profunda tenue, 40% capa frontal activa
+        nodes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * (isDeep ? 0.2 : 0.35),
+          vy: (Math.random() - 0.5) * (isDeep ? 0.2 : 0.35),
+          radius: isDeep ? 1.2 : 2.1,
+          isDeep,
+        });
+      }
+    };
+
+    window.addEventListener('resize', resize);
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.active = false;
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (animId) cancelAnimationFrame(animId);
+        animId = null;
+      } else if (!animId) {
+        draw();
+      }
+    });
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+
+        // Deriva constante y suave (sin repulsión)
+        n.x += n.vx;
+        n.y += n.vy;
+
+        // Rebotes suaves en bordes
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+
+        // Dibujar punto
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        if (n.isDeep) {
+          ctx.fillStyle = 'rgba(147, 161, 161, 0.28)';
+        } else {
+          // Nodo frontal en Solarized Blue nítido
+          ctx.fillStyle = 'rgba(38, 139, 210, 0.60)';
+        }
+        ctx.fill();
+
+        // 1. Conexiones entre nodos de la misma capa
+        for (let j = i + 1; j < nodes.length; j++) {
+          const n2 = nodes[j];
+          if (n.isDeep !== n2.isDeep) continue; // Conectar solo dentro de su propio plano
+
+          const dx = n.x - n2.x;
+          const dy = n.y - n2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (n.isDeep && dist < 100) {
+            // Capa profunda: líneas tenues en Base1
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(n2.x, n2.y);
+            ctx.strokeStyle = `rgba(147, 161, 161, ${0.18 * (1 - dist / 100)})`;
+            ctx.lineWidth = 0.65;
+            ctx.stroke();
+          } else if (!n.isDeep && dist < 125) {
+            // Capa frontal: líneas en Solarized Blue suave para realzar sobre el fondo cálido
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(n2.x, n2.y);
+            ctx.strokeStyle = `rgba(38, 139, 210, ${0.28 * (1 - dist / 125)})`;
+            ctx.lineWidth = 0.95;
+            ctx.stroke();
+          }
+        }
+
+        // 2. Conexión reactiva al ratón (solo afecta a la capa frontal)
+        if (!n.isDeep && mouse.active) {
+          const dx = n.x - mouse.x;
+          const dy = n.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 140) {
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(38, 139, 210, ${0.45 * (1 - dist / 140)})`;
+            ctx.lineWidth = 1.25;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+  })();
+</script>
