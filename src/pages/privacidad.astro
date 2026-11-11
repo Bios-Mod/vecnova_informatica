@@ -6,7 +6,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NetworkNodes from '../components/NetworkNodes.astro';
 import TerminalCard from '../components/TerminalCard.astro';
-import { siteConfig, withBase } from '../config/site';
+import { siteConfig, showLegalOwnerData, withBase } from '../config/site';
 ---
 
 <BaseLayout
@@ -29,20 +29,22 @@ import { siteConfig, withBase } from '../config/site';
     <div class="space-y-8">
 
       <!-- 1. Responsable del tratamiento -->
-      <TerminalCard title="1. Responsable del tratamiento">
-        <div class="space-y-3 text-sm sm:text-base text-[#2b424a] dark:text-[#839496] leading-relaxed">
-          <p>
-            El responsable del tratamiento de los datos recabados con ocasión de las comunicaciones remitidas a través de este sitio web es:
-          </p>
-          <ul class="list-disc pl-5 space-y-1 font-mono text-xs sm:text-sm">
-            <li><strong>Identidad:</strong> {siteConfig.owner}</li>
-            <li><strong>Actividad comercial:</strong> {siteConfig.name}</li>
-            <li><strong>Identificación fiscal (NIE/NIF):</strong> {siteConfig.idNumber}</li>
-            <li><strong>Domicilio:</strong> {siteConfig.address}</li>
-            <li><strong>Correo electrónico de contacto:</strong> {siteConfig.email}</li>
-          </ul>
-        </div>
-      </TerminalCard>
+      {showLegalOwnerData && (
+        <TerminalCard title="1. Responsable del tratamiento">
+          <div class="space-y-3 text-sm sm:text-base text-[#2b424a] dark:text-[#839496] leading-relaxed">
+            <p>
+              El responsable del tratamiento de los datos recabados con ocasión de las comunicaciones remitidas a través de este sitio web es:
+            </p>
+            <ul class="list-disc pl-5 space-y-1 font-mono text-xs sm:text-sm">
+              <li><strong>Identidad:</strong> {siteConfig.owner}</li>
+              <li><strong>Actividad comercial:</strong> {siteConfig.name}</li>
+              <li><strong>Identificación fiscal (NIE/NIF):</strong> {siteConfig.idNumber}</li>
+              <li><strong>Domicilio:</strong> {siteConfig.address}</li>
+              <li><strong>Correo electrónico de contacto:</strong> {siteConfig.email}</li>
+            </ul>
+          </div>
+        </TerminalCard>
+      )}
 
       <!-- 2. Datos que se tratan y origen -->
       <TerminalCard title="2. Datos que se tratan y ausencia de rastreo">

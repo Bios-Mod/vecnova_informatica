@@ -24,7 +24,7 @@ import {
 
 <BaseLayout
   title="Contacto directo"
-  description={`Contacta directamente con ${siteConfig.shortName}. Canales directos de soporte informático, mantenimiento de equipos e infraestructura cloud en Barcelona y remoto.`}
+  description={`Contacta directamente con ${siteConfig.shortName}. Canales directos de soporte informático, mantenimiento de equipos e infraestructura cloud en ${siteConfig.location.shortFormula} y remoto.`}
 >
   <!-- Red de nodos ambiental de fondo en toda la web -->
   <NetworkNodes />
@@ -37,7 +37,7 @@ import {
         Contáctanos
       </h1>
       <p class="hero-blur-in mt-4 text-base sm:text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
-        Atención presencial en Barcelona y soporte remoto para particulares y pequeñas empresas.
+        Atención presencial y soporte remoto para particulares y pequeñas empresas. {siteConfig.location.longFormula}.
       </p>
     </header>
 

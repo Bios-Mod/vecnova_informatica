@@ -6,6 +6,13 @@
  * usando un marcador TODO_* por defecto si no están definidos.
  */
 
+export interface SiteLocation {
+  base: string;
+  zone: string;
+  shortFormula: string;
+  longFormula: string;
+}
+
 export interface SiteConfig {
   name: string;
   shortName: string;
@@ -17,7 +24,9 @@ export interface SiteConfig {
   url: string;
   logoPath: string;
   logoDarkPath: string;
+  location: SiteLocation;
   isLaunch: boolean;
+  showLegalOwnerData: boolean;
 }
 
 function resolveLogoPaths(raw: string | undefined): { logoPath: string; logoDarkPath: string } {
@@ -59,8 +68,17 @@ export const siteConfig: SiteConfig = {
   url: import.meta.env.PUBLIC_SITE_URL || 'https://TODO_SITE_URL',
   logoPath,
   logoDarkPath,
+  location: {
+    base: 'Montcada i Reixac',
+    zone: 'Vallès y Barcelona',
+    shortFormula: 'Montcada i Reixac, el Vallès y Barcelona',
+    longFormula: 'Base en Montcada i Reixac, con servicio en el Vallès y Barcelona',
+  },
   isLaunch: import.meta.env.PUBLIC_LAUNCH === 'true',
+  showLegalOwnerData: import.meta.env.PUBLIC_SHOW_LEGAL_OWNER_DATA === 'true',
 };
+
+export const showLegalOwnerData: boolean = siteConfig.showLegalOwnerData;
 
 /**
  * Comprueba si un valor es un dato real y no un marcador TODO_ ni una cadena vacía.
