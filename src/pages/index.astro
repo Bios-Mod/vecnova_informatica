@@ -14,12 +14,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SphereHero from '../components/SphereHero.astro';
 import NetworkNodes from '../components/NetworkNodes.astro';
 import TerminalCard from '../components/TerminalCard.astro';
-import { siteConfig, withBase } from '../config/site';
+import { withBase } from '../config/site';
 ---
 
 <BaseLayout
   title="Soluciones informáticas a medida"
-  description={`Soluciones informáticas a medida para particulares y pymes. ${siteConfig.location.longFormula}.`}
+  description="Soluciones informáticas a medida para particulares y pymes en Montcada i Reixac y Barcelona."
 >
   <!-- Red de nodos ambiental de fondo en toda la web (sin repulsión, pacífica) -->
   <NetworkNodes />
@@ -38,7 +38,7 @@ import { siteConfig, withBase } from '../config/site';
 
         <!-- Subtítulo directo unificado (P-032) -->
         <p class="mt-7 sm:mt-8 text-lg sm:text-xl md:text-2xl text-[#586e75] dark:text-[#93a1a1] max-w-3xl mx-auto font-normal leading-relaxed hero-blur-in transition-colors">
-          Soporte técnico presencial para tu día a día y soluciones de infraestructura cloud para tu negocio. {siteConfig.location.longFormula}.
+          Soporte técnico presencial y soluciones de infraestructura cloud para tu negocio en Montcada i Reixac y Barcelona.
         </p>
       </SphereHero>
     </section>

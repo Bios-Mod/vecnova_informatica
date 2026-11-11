@@ -4,7 +4,7 @@ Sitio web oficial y arquitectura de servicios profesionales de **Vecnova Inform�
 
 - **URL de producción:** [https://vecnovainformatica.com](https://vecnovainformatica.com)
 
-El proyecto funciona como escaparate de servicios profesionales para particulares y pequeñas empresas (soporte informático presencial con base en Montcada i Reixac y servicio en el Vallès y Barcelona, mantenimiento de sistemas, puestas a punto e infraestructura cloud), y al mismo tiempo como caso de estudio técnico y portfolio de arquitectura reproducible con infraestructura como código.
+El proyecto funciona como escaparate de servicios profesionales para particulares y pequeñas empresas (soporte informático presencial en Montcada i Reixac y Barcelona, mantenimiento de sistemas, puestas a punto e infraestructura cloud), y al mismo tiempo como caso de estudio técnico y portfolio de arquitectura reproducible con infraestructura como código.
 
 ---
 
