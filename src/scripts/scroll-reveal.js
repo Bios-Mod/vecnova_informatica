@@ -115,9 +115,8 @@ if (prefersReducedMotion) {
     ScrollTrigger.create({
       trigger: /** @type {Element} */ (elem),
       start: 'top 78%',
-      onEnter: function () { animateFrom(/** @type {Element} */ (elem)); },
-      onEnterBack: function () { animateFrom(/** @type {Element} */ (elem), -1); },
-      onLeave: function () { hide(/** @type {Element} */ (elem)); }
+      once: true,
+      onEnter: function () { animateFrom(/** @type {Element} */ (elem)); }
     });
   });
 }
