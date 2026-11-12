@@ -26,7 +26,7 @@ const whatsAppUrl = getWhatsAppUrl();
 ---
 
 <BaseLayout
-  title="Contacto directo"
+  title="Contacta con nosotros"
   description={`Contacta directamente con ${siteConfig.shortName}. Canales directos de soporte informático, mantenimiento de equipos e infraestructura cloud en Montcada i Reixac y Barcelona, y remoto.`}
 >
   <!-- Red de nodos ambiental de fondo en toda la web -->
@@ -36,16 +36,17 @@ const whatsAppUrl = getWhatsAppUrl();
 
     <!-- Cabecera de Contacto: Sobria, centrada y con entrada suave -->
     <header class="py-12 sm:py-16 text-center max-w-3xl mx-auto">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight hero-blur-in transition-colors">
-        Contacto
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight text-balance hero-blur-in transition-colors">
+        Contacta <span class="text-[#268bd2]">con nosotros</span>
       </h1>
     </header>
 
     <!-- Momento 1: Canales directos — Entra desde la izquierda con GSAP -->
     <section id="canales" class="py-14 sm:py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
       <div class="max-w-3xl mb-10">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
-          Canales de contacto
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors flex items-center">
+          <span class="font-mono text-[#2aa198] mr-2.5" aria-hidden="true">›</span>
+          <span>Canales de contacto</span>
         </h2>
         <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
           Atención de lunes a viernes en horario laboral.
@@ -130,7 +131,7 @@ const whatsAppUrl = getWhatsAppUrl();
                     href={whatsAppUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-white bg-[#198754] rounded-xl hover:bg-[#146c43] shadow-xs hover:shadow transition-all text-center"
+                    class="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-white bg-[#2aa198] rounded-xl hover:bg-[#23837b] shadow-xs hover:shadow transition-all text-center"
                   >
                     WhatsApp
                     <span class="ml-1.5">↗</span>

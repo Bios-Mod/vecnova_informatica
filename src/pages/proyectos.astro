@@ -46,7 +46,7 @@ const TECH_ROW_2 = [
 ---
 
 <BaseLayout
-  title="Evidencia técnica y arquitectura de referencia"
+  title="Stack tecnológico y evidencia"
   description={`Evidencia técnica de ${siteConfig.name} con código real, auditorías reproducibles (Lynis 88/90), arquitectura serverless y tecnologías implementadas.`}
 >
   <!-- Red de nodos ambiental de fondo en toda la web -->
@@ -55,17 +55,60 @@ const TECH_ROW_2 = [
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
     <!-- Cabecera de Proyectos: Sobria, centrada y con entrada suave -->
-    <header class="py-12 sm:py-16 text-center max-w-3xl mx-auto">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight hero-blur-in transition-colors">
-        Evidencia técnica y tecnologías
+    <header class="py-12 sm:py-16 text-center max-w-5xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight text-balance hero-blur-in transition-colors">
+        Stack tecnológico <span class="text-[#268bd2]">y evidencia</span>
       </h1>
     </header>
 
-    <!-- Momento 1: Fichas de evidencia técnica — Entra desde la izquierda con GSAP -->
-    <section id="proyectos" class="py-14 sm:py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+    <!-- Momento 1: Tecnologías — Entra desde la izquierda con GSAP -->
+    <section id="tecnologias" class="py-14 sm:py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
       <div class="max-w-3xl mb-10">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
-          Evidencia técnica
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors flex items-center">
+          <span class="font-mono text-[#2aa198] mr-2.5" aria-hidden="true">›</span>
+          <span>Tecnologías</span>
+        </h2>
+        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
+          Herramientas y tecnologías integradas en las implementaciones de infraestructura, contenedores y automatización de {siteConfig.name}.
+        </p>
+      </div>
+
+      <!-- Contenedor Logo Cloud con máscaras de difuminado lateral suave -->
+      <div class="marquee-wrapper relative overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] select-none">
+
+        <!-- Fila 1: Desplazamiento continuo hacia la izquierda -->
+        <div class="animate-marquee-left flex gap-3.5 mb-3.5">
+          {TECH_ROW_1.concat(TECH_ROW_1).map((tech) => (
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] hover:border-[#268bd2] dark:hover:border-[#268bd2] hover:bg-[#fdf6e3] dark:hover:bg-[#002b36] hover:shadow-[0_4px_16px_rgba(38,139,210,0.18)] dark:hover:shadow-[0_4px_16px_rgba(38,139,210,0.25)] transition-all shrink-0 cursor-default group">
+              <TechIcon name={tech.icon} class="w-6 h-6 text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors shrink-0" />
+              <span class="font-mono text-xs sm:text-sm font-semibold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors whitespace-nowrap">
+                {tech.nombre}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Fila 2: Desplazamiento continuo hacia la derecha -->
+        <div class="animate-marquee-right flex gap-3.5">
+          {TECH_ROW_2.concat(TECH_ROW_2).map((tech) => (
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] hover:border-[#268bd2] dark:hover:border-[#268bd2] hover:bg-[#fdf6e3] dark:hover:bg-[#002b36] hover:shadow-[0_4px_16px_rgba(38,139,210,0.18)] dark:hover:shadow-[0_4px_16px_rgba(38,139,210,0.25)] transition-all shrink-0 cursor-default group">
+              <TechIcon name={tech.icon} class="w-6 h-6 text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors shrink-0" />
+              <span class="font-mono text-xs sm:text-sm font-semibold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors whitespace-nowrap">
+                {tech.nombre}
+              </span>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Momento 2: Fichas de evidencia técnica — Entra desde la derecha con GSAP -->
+    <section id="proyectos" class="py-14 sm:py-16 scroll-mt-20 gs_reveal gs_reveal_fromRight">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors flex items-center">
+          <span class="font-mono text-[#2aa198] mr-2.5" aria-hidden="true">›</span>
+          <span>Evidencia técnica</span>
         </h2>
         <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
           Implementaciones de {siteConfig.name} con código auditable, configuración reproducible y resultados medibles.
@@ -151,7 +194,7 @@ const TECH_ROW_2 = [
             </TerminalCard>
           </a>
         ) : (
-          <div>
+          <div class="group block">
             <TerminalCard bodyClass="p-5 sm:p-6 flex flex-col justify-center">
               <div class="mb-2.5">
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#2aa198]/15 dark:bg-[#2aa198]/20 text-[#2aa198] border border-[#2aa198]/30">
@@ -159,7 +202,7 @@ const TECH_ROW_2 = [
                 </span>
               </div>
 
-              <h3 class="text-xl sm:text-2xl font-bold text-[#073642] dark:text-[#eee8d5] font-mono mb-3 transition-colors">
+              <h3 class="text-xl sm:text-2xl font-bold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] font-mono mb-3 transition-colors">
                 Web de {siteConfig.name}
               </h3>
 
@@ -169,47 +212,6 @@ const TECH_ROW_2 = [
             </TerminalCard>
           </div>
         )}
-
-      </div>
-    </section>
-
-    <!-- Momento 2: Tecnologías — Entra desde la derecha con GSAP -->
-    <section id="tecnologias" class="py-14 sm:py-16 scroll-mt-20 gs_reveal gs_reveal_fromRight">
-      <div class="max-w-3xl mb-10">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
-          Tecnologías
-        </h2>
-        <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
-          Herramientas y tecnologías integradas en las implementaciones de infraestructura, contenedores y automatización de {siteConfig.name}.
-        </p>
-      </div>
-
-      <!-- Contenedor Logo Cloud con máscaras de difuminado lateral suave -->
-      <div class="marquee-wrapper relative overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] select-none">
-
-        <!-- Fila 1: Desplazamiento continuo hacia la izquierda -->
-        <div class="animate-marquee-left flex gap-3.5 mb-3.5">
-          {TECH_ROW_1.concat(TECH_ROW_1).map((tech) => (
-            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] hover:border-[#268bd2] dark:hover:border-[#268bd2] hover:bg-[#fdf6e3] dark:hover:bg-[#002b36] hover:shadow-[0_4px_16px_rgba(38,139,210,0.18)] dark:hover:shadow-[0_4px_16px_rgba(38,139,210,0.25)] transition-all shrink-0 cursor-default group">
-              <TechIcon name={tech.icon} class="w-6 h-6 text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors shrink-0" />
-              <span class="font-mono text-xs sm:text-sm font-semibold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors whitespace-nowrap">
-                {tech.nombre}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <!-- Fila 2: Desplazamiento continuo hacia la derecha -->
-        <div class="animate-marquee-right flex gap-3.5">
-          {TECH_ROW_2.concat(TECH_ROW_2).map((tech) => (
-            <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] hover:border-[#268bd2] dark:hover:border-[#268bd2] hover:bg-[#fdf6e3] dark:hover:bg-[#002b36] hover:shadow-[0_4px_16px_rgba(38,139,210,0.18)] dark:hover:shadow-[0_4px_16px_rgba(38,139,210,0.25)] transition-all shrink-0 cursor-default group">
-              <TechIcon name={tech.icon} class="w-6 h-6 text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors shrink-0" />
-              <span class="font-mono text-xs sm:text-sm font-semibold text-[#073642] group-hover:text-[#268bd2] dark:text-[#eee8d5] dark:group-hover:text-[#268bd2] transition-colors whitespace-nowrap">
-                {tech.nombre}
-              </span>
-            </div>
-          ))}
-        </div>
 
       </div>
     </section>

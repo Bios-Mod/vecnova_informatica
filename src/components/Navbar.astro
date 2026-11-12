@@ -17,7 +17,7 @@ const { currentPath = '/' } = Astro.props;
 const links = [
   { href: withBase('/'), raw: '/', label: 'Inicio' },
   { href: withBase('/servicios/'), raw: '/servicios/', label: 'Servicios' },
-  { href: withBase('/proyectos/'), raw: '/proyectos/', label: 'Proyectos' },
+  { href: withBase('/proyectos/'), raw: '/proyectos/', label: 'Stack y evidencia' },
   { href: withBase('/sobre-nosotros/'), raw: '/sobre-nosotros/', label: 'Sobre nosotros' },
 ];
 ---
@@ -49,7 +49,7 @@ const links = [
       </a>
 
       <!-- Enlaces de escritorio -->
-      <div class="hidden md:flex items-center gap-5">
+      <div class="hidden md:flex items-center md:gap-4 lg:gap-5 whitespace-nowrap">
         {links.map((link) => (
           <a
             href={link.href}
