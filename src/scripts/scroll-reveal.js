@@ -32,15 +32,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Parámetros globales del efecto de revelado (único punto de ajuste).
+ * Parámetros globales del efecto de revelado bidireccional (único punto de ajuste).
  */
 const SCROLL_REVEAL_CONFIG = {
   triggerStart: 'top 78%',
-  initialViewportRatio: 0.78,
+  triggerEnd: 'bottom 22%',
   offsetX: 100,
   offsetY: 100,
   mobileBreakpoint: 768,
-  duration: 1.9,
+  enterDuration: 1.9,
+  leaveDuration: 0.35,
   heroDuration: 0.85,
   heroStagger: 0.12,
   heroDelay: 0.05,
@@ -88,11 +89,12 @@ if (prefersReducedMotion) {
   }
 
   /**
-   * Revela cada bloque una sola vez desde izquierda/derecha (en móvil vertical).
+   * Entrada animada desde izquierda/derecha (en móvil, vertical según dirección).
    */
-  function animateFrom(elem) {
+  function animateIn(elem, direction) {
+    var dir = direction || 1;
     var x = 0;
-    var y = SCROLL_REVEAL_CONFIG.offsetY;
+    var y = dir * SCROLL_REVEAL_CONFIG.offsetY;
     var isMobile = window.innerWidth < SCROLL_REVEAL_CONFIG.mobileBreakpoint;
 
     if (!isMobile && elem.classList.contains('gs_reveal_fromLeft')) {
@@ -103,6 +105,7 @@ if (prefersReducedMotion) {
       y = 0;
     }
 
+    gsap.killTweensOf(elem);
     elem.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
     elem.style.opacity = '0';
 
@@ -110,7 +113,7 @@ if (prefersReducedMotion) {
       elem,
       { x: x, y: y, autoAlpha: 0 },
       {
-        duration: SCROLL_REVEAL_CONFIG.duration,
+        duration: SCROLL_REVEAL_CONFIG.enterDuration,
         x: 0,
         y: 0,
         autoAlpha: 1,
@@ -121,51 +124,100 @@ if (prefersReducedMotion) {
     );
   }
 
+  /**
+   * Desvanecido rápido al salir del viewport (solo opacidad, sin transform).
+   */
+  function fadeOut(elem) {
+    gsap.killTweensOf(elem);
+    gsap.to(elem, {
+      duration: SCROLL_REVEAL_CONFIG.leaveDuration,
+      autoAlpha: 0,
+      ease: 'power2.out',
+      overwrite: 'auto',
+    });
+  }
+
+  function isProgrammaticAnchorScroll() {
+    return Boolean(/** @type {any} */ (window).__vecnovaAnchorScrolling);
+  }
+
+  /** @type {Array<{ syncAfterAnchorJump: () => void }>} */
+  const registry = [];
+
   gsap.utils.toArray('.gs_reveal').forEach(function (elem) {
     const el = /** @type {HTMLElement} */ (elem);
-    let revealed = false;
+    let isVisible = false;
 
-    function revealOnce(immediate) {
-      if (revealed) return;
-      revealed = true;
-      if (immediate) {
+    function syncImmediate(triggerSelf) {
+      gsap.killTweensOf(el);
+      if (triggerSelf.isActive) {
+        isVisible = true;
         gsap.set(el, { autoAlpha: 1, x: 0, y: 0, clearProps: 'transform' });
       } else {
-        animateFrom(el);
+        isVisible = false;
+        gsap.set(el, { autoAlpha: 0, x: 0, y: 0, clearProps: 'transform' });
       }
     }
 
-    // Comprobación inicial: mostrar si ya está por encima o dentro del umbral del viewport
-    const initialRect = el.getBoundingClientRect();
-    if (initialRect.bottom < 0) {
-      revealOnce(true);
-      return;
-    }
-    if (initialRect.top <= window.innerHeight * SCROLL_REVEAL_CONFIG.initialViewportRatio) {
-      revealOnce(false);
-      return;
-    }
-
-    gsap.set(el, { autoAlpha: 0 });
-
-    ScrollTrigger.create({
+    const st = ScrollTrigger.create({
       trigger: el,
       start: SCROLL_REVEAL_CONFIG.triggerStart,
-      once: true,
+      end: SCROLL_REVEAL_CONFIG.triggerEnd,
       onEnter: function () {
-        revealOnce(false);
+        if (isProgrammaticAnchorScroll()) return;
+        isVisible = true;
+        animateIn(el, 1);
+      },
+      onEnterBack: function () {
+        if (isProgrammaticAnchorScroll()) return;
+        isVisible = true;
+        animateIn(el, -1);
+      },
+      onLeave: function () {
+        if (isProgrammaticAnchorScroll()) return;
+        isVisible = false;
+        fadeOut(el);
+      },
+      onLeaveBack: function () {
+        if (isProgrammaticAnchorScroll()) return;
+        isVisible = false;
+        fadeOut(el);
       },
       onRefresh: function (self) {
-        const rect = el.getBoundingClientRect();
-        if (rect.bottom < 0) {
-          revealOnce(true);
-        } else if (
-          self.progress > 0 ||
-          rect.top <= window.innerHeight * SCROLL_REVEAL_CONFIG.initialViewportRatio
-        ) {
-          revealOnce(false);
+        if (isProgrammaticAnchorScroll()) return;
+        syncImmediate(self);
+      },
+    });
+
+    // Estado inicial derivado de self.isActive (recarga en /#contacto, entrada directa o /)
+    if (st.isActive) {
+      isVisible = true;
+      animateIn(el, 1);
+    } else {
+      isVisible = false;
+      gsap.set(el, { autoAlpha: 0, x: 0, y: 0, clearProps: 'transform' });
+    }
+
+    registry.push({
+      syncAfterAnchorJump: function () {
+        if (st.isActive) {
+          if (!isVisible) {
+            isVisible = true;
+            animateIn(el, 1);
+          }
+        } else {
+          isVisible = false;
+          gsap.killTweensOf(el);
+          gsap.set(el, { autoAlpha: 0, x: 0, y: 0, clearProps: 'transform' });
         }
       },
+    });
+  });
+
+  window.addEventListener('vecnova:anchor-scroll-end', function () {
+    ScrollTrigger.update(true);
+    registry.forEach(function (entry) {
+      entry.syncAfterAnchorJump();
     });
   });
 

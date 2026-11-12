@@ -114,6 +114,56 @@ const shouldNoindex = noindex || !siteConfig.isLaunch;
     <!-- Manejador único de desplazamiento suave a anclas con compensación de barra fija (64px) -->
     <script>
       const FIXED_HEADER_HEIGHT = 64;
+      const ANCHOR_SCROLL_IDLE_MS = 140;
+      const ANCHOR_SCROLL_MAX_WAIT_MS = 900;
+
+      let cleanupAnchorScroll: (() => void) | null = null;
+
+      function startAnchorScrollTracking(instant: boolean) {
+        if (cleanupAnchorScroll) {
+          cleanupAnchorScroll();
+        }
+
+        (window as any).__vecnovaAnchorScrolling = true;
+        let finished = false;
+        let idleTimer: number | undefined;
+        let maxTimer: number | undefined;
+
+        const finishScroll = () => {
+          if (finished) return;
+          finished = true;
+          if (idleTimer !== undefined) window.clearTimeout(idleTimer);
+          if (maxTimer !== undefined) window.clearTimeout(maxTimer);
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('scrollend', finishScroll);
+          cleanupAnchorScroll = null;
+          (window as any).__vecnovaAnchorScrolling = false;
+          window.dispatchEvent(new CustomEvent('vecnova:anchor-scroll-end'));
+        };
+
+        const onScroll = () => {
+          if (idleTimer !== undefined) window.clearTimeout(idleTimer);
+          idleTimer = window.setTimeout(finishScroll, ANCHOR_SCROLL_IDLE_MS);
+        };
+
+        cleanupAnchorScroll = () => {
+          if (idleTimer !== undefined) window.clearTimeout(idleTimer);
+          if (maxTimer !== undefined) window.clearTimeout(maxTimer);
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('scrollend', finishScroll);
+          finished = true;
+        };
+
+        if (instant) {
+          requestAnimationFrame(finishScroll);
+          return;
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('scrollend', finishScroll, { once: true });
+        idleTimer = window.setTimeout(finishScroll, ANCHOR_SCROLL_IDLE_MS * 2);
+        maxTimer = window.setTimeout(finishScroll, ANCHOR_SCROLL_MAX_WAIT_MS);
+      }
 
       document.addEventListener('click', (e) => {
         const eventTarget = e.target;
@@ -154,6 +204,9 @@ const shouldNoindex = noindex || !siteConfig.isLaunch;
           0,
           sectionEl.getBoundingClientRect().top + window.scrollY - FIXED_HEADER_HEIGHT
         );
+        const alreadyAtTarget = Math.abs(window.scrollY - targetTop) < 2;
+
+        startAnchorScrollTracking(prefersReduced || alreadyAtTarget);
 
         window.scrollTo({
           top: targetTop,
