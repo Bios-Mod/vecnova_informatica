@@ -35,14 +35,14 @@ const whatsAppUrl = getWhatsAppUrl();
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
     <!-- Cabecera de Contacto: Sobria, centrada y con entrada suave -->
-    <header class="py-16 sm:py-24 text-center max-w-3xl mx-auto">
+    <header class="py-12 sm:py-16 text-center max-w-3xl mx-auto">
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#268bd2] leading-tight hero-blur-in transition-colors">
         Contacto
       </h1>
     </header>
 
     <!-- Momento 1: Canales directos — Entra desde la izquierda con GSAP -->
-    <section id="canales" class="min-h-[60vh] flex flex-col justify-center py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+    <section id="canales" class="py-14 sm:py-16 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
       <div class="max-w-3xl mb-10">
         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
           Canales de contacto
@@ -130,7 +130,7 @@ const whatsAppUrl = getWhatsAppUrl();
                     href={whatsAppUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-[#073642] dark:text-[#eee8d5] bg-[#eee8d5] dark:bg-[#073642] border border-[#d8d0bb] dark:border-[#0a4756] rounded-xl hover:border-[#2aa198] hover:text-[#2aa198] dark:hover:border-[#2aa198] dark:hover:text-[#2aa198] shadow-xs hover:shadow transition-all text-center"
+                    class="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-white bg-[#198754] rounded-xl hover:bg-[#146c43] shadow-xs hover:shadow transition-all text-center"
                   >
                     WhatsApp
                     <span class="ml-1.5">↗</span>
@@ -155,7 +155,7 @@ const whatsAppUrl = getWhatsAppUrl();
     </section>
 
     <!-- Momento 2: Cierre hacia Servicios y Proyectos — Entra desde la derecha con GSAP -->
-    <section class="py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] text-center gs_reveal gs_reveal_fromRight">
+    <section class="py-16 sm:py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] text-center gs_reveal gs_reveal_fromRight">
       <div class="max-w-2xl mx-auto">
         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
           ¿Más detalles técnicos?
