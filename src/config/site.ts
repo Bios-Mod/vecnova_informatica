@@ -104,6 +104,15 @@ export function getTelUrl(): string {
 }
 
 /**
+ * Genera el enlace wa.me limpio (solo dígitos) solo si el canal telefónico es real.
+ */
+export function getWhatsAppUrl(): string {
+  if (!isRealValue(siteConfig.phone)) return '';
+  const digits = siteConfig.phone.replace(/\D/g, '');
+  return digits ? `https://wa.me/${digits}` : '';
+}
+
+/**
  * Auxiliar para anteponer import.meta.env.BASE_URL a enlaces internos y recursos públicos.
  * Permite servir la aplicación bajo un subpath sin romper rutas relativas al sitio.
  * Con base '/' el resultado es idéntico a una ruta absoluta.

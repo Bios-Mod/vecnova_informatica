@@ -56,29 +56,13 @@ const TECH_ROW_2 = [
 
     <!-- Cabecera de Proyectos: Sobria, centrada y con entrada suave -->
     <header class="py-16 sm:py-24 text-center max-w-3xl mx-auto">
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight hero-blur-in transition-colors">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#2aa198] leading-tight hero-blur-in transition-colors">
         Evidencia técnica y tecnologías
       </h1>
-
-      <!-- Navegación rápida por secciones (2 accesos directos estilo dock) -->
-      <nav class="hero-blur-in mt-8 sm:mt-10 inline-flex flex-wrap justify-center items-center gap-1 sm:gap-1.5 p-1.5 rounded-2xl bg-[#eee8d5]/85 dark:bg-[#073642]/85 border border-[#d8d0bb] dark:border-[#0a4756] backdrop-blur-[3px] shadow-[inset_0_1px_0_0_rgba(253,246,227,0.8),0_2px_4px_rgba(7,54,66,0.03)] dark:shadow-[inset_0_1px_0_0_rgba(147,161,161,0.08),0_2px_4px_rgba(0,0,0,0.3)] transition-colors" aria-label="Navegación de secciones de proyectos">
-        <a
-          href="#proyectos"
-          class="nav-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
-        >
-          Evidencia técnica
-        </a>
-        <a
-          href="#tecnologias"
-          class="nav-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
-        >
-          Tecnologías
-        </a>
-      </nav>
     </header>
 
     <!-- Momento 1: Fichas de evidencia técnica — Entra desde la izquierda con GSAP -->
-    <section id="proyectos" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
+    <section id="proyectos" class="min-h-[75vh] flex flex-col justify-center py-20 scroll-mt-20 gs_reveal gs_reveal_fromLeft">
       <div class="max-w-3xl mb-10">
         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
           Evidencia técnica
@@ -190,7 +174,7 @@ const TECH_ROW_2 = [
     </section>
 
     <!-- Momento 2: Tecnologías — Entra desde la derecha con GSAP -->
-    <section id="tecnologias" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromRight">
+    <section id="tecnologias" class="min-h-[75vh] flex flex-col justify-center py-20 scroll-mt-20 gs_reveal gs_reveal_fromRight">
       <div class="max-w-3xl mb-10">
         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
           Tecnologías
@@ -231,7 +215,7 @@ const TECH_ROW_2 = [
     </section>
 
     <!-- Momento 3: Cierre hacia Servicios y Contacto — Entra desde la izquierda con GSAP -->
-    <section class="py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] text-center gs_reveal gs_reveal_fromLeft">
+    <section class="py-20 text-center gs_reveal gs_reveal_fromLeft">
       <div class="max-w-2xl mx-auto">
         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
           ¿Necesitas una infraestructura similar para tu proyecto?
@@ -298,23 +282,7 @@ const TECH_ROW_2 = [
     }
   </style>
 
-  <!-- Lógica interactiva en cliente (Smooth Scroll y Reveal) -->
   <script>
     import '../scripts/scroll-reveal.js';
-
-    // Desplazamiento suave para la navegación interna del dock
-    document.querySelectorAll<HTMLAnchorElement>('.nav-pill').forEach((anchor) => {
-      anchor.addEventListener('click', (e) => {
-        const href = anchor.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          const target = document.querySelector(href);
-          if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            history.pushState(null, '', href);
-          }
-        }
-      });
-    });
   </script>
 </BaseLayout>
