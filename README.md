@@ -29,7 +29,7 @@ Para más detalles sobre la configuración, variables y provisión de la infraes
 - **Generador de sitio estático:** [Astro 5](https://astro.build/) — compilación a HTML estático de alto rendimiento y cero JavaScript innecesario en cliente.
 - **Estilos:** [Tailwind CSS v4](https://tailwindcss.com/) — utilidades y diseño reactivo.
 - **Animaciones e interactividad:** [GSAP](https://greensock.com/gsap/) con ScrollTrigger — revelado suave de secciones respetando `prefers-reduced-motion`.
-- **Lienzo gráfico:** [Three.js](https://threejs.org/) — visualización de la esfera geodésica interactiva del hero.
+- **Lienzo gráfico:** HTML5 Canvas 2D nativo — visualización de la esfera geodésica del hero (`SphereHero`) y red de nodos de fondo (`NetworkNodes`), sin librerías 3D externas.
 - **Tipografía:** [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk).
 
 ---
@@ -92,7 +92,7 @@ vecnova_informatica/
     │   └── site.ts         # Configuración central tipada (datos de marca y contacto)
     ├── components/         # Componentes UI (Navbar, Footer, SphereHero, NetworkNodes, TerminalCard, TechIcon, ThemeToggle)
     ├── layouts/            # Plantilla base (BaseLayout.astro con anti-FOUT y reactividad OS)
-    ├── pages/              # Rutas (index, servicios, proyectos, sobre-nosotros, contacto, aviso-legal, privacidad, 404)
+    ├── pages/              # Rutas (index con anclas de sección, aviso-legal, privacidad, avisos-de-terceros, 404, robots.txt, sitemap.xml)
     ├── scripts/            # Scripts del cliente (scroll-reveal.js con GSAP)
     └── styles/             # Estilos globales y tokens Tailwind (con @custom-variant dark)
 ```

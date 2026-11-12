@@ -6,10 +6,6 @@ import { siteConfig, withBase, hasValidSiteUrl } from '../config/site';
  */
 const publicRoutes = [
   '',
-  'servicios/',
-  'proyectos/',
-  'sobre-nosotros/',
-  'contacto/',
   'aviso-legal/',
   'privacidad/',
   'avisos-de-terceros/',
@@ -35,7 +31,7 @@ export const GET: APIRoute = () => {
 ${publicRoutes
   .map((route) => {
     const loc = `${cleanSite}${withBase(`/${route}`)}`;
-    const priority = route === '' ? '1.0' : route === 'servicios/' || route === 'proyectos/' ? '0.8' : '0.5';
+    const priority = route === '' ? '1.0' : '0.5';
     const changefreq = route === '' ? 'weekly' : 'monthly';
     return `  <url>
     <loc>${loc}</loc>

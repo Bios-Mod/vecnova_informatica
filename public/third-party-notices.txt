@@ -1,7 +1,7 @@
 Third-Party Notices and Licenses
 ================================
 
-This document details third-party software, libraries, code snippets, and brand assets utilized in Vecnova Informática (https://vecnova.es).
+This document details third-party software, libraries, code snippets, and brand assets utilized in Vecnova Informática (https://vecnovainformatica.com).
 
 --------------------------------------------------------------------------------
 1. SOFTWARE & CODE LIBRARIES

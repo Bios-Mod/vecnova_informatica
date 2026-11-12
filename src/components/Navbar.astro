@@ -2,7 +2,8 @@
 /**
  * Navbar.astro — Barra de navegación principal.
  * Fija en la parte superior, fuera del flujo de scroll (P-032).
- * En móvil, muestra un botón hamburguesa que despliega el menú.
+ * Enlace a anclas de la página única (/#ancla) para funcionar también desde páginas legales y 404.
+ * Resalta el enlace activo mediante IntersectionObserver (aria-current) y cierra el menú móvil al pulsar.
  */
 
 import ThemeToggle from './ThemeToggle.astro';
@@ -12,13 +13,12 @@ interface Props {
   currentPath?: string;
 }
 
-const { currentPath = '/' } = Astro.props;
+const { currentPath: _currentPath = '/' } = Astro.props;
 
 const links = [
-  { href: withBase('/'), raw: '/', label: 'Inicio' },
-  { href: withBase('/servicios/'), raw: '/servicios/', label: 'Servicios' },
-  { href: withBase('/proyectos/'), raw: '/proyectos/', label: 'Proyectos' },
-  { href: withBase('/sobre-nosotros/'), raw: '/sobre-nosotros/', label: 'Sobre nosotros' },
+  { href: withBase('/#servicios'), section: 'servicios', label: 'Servicios' },
+  { href: withBase('/#evidencia'), section: 'evidencia', label: 'Evidencia técnica' },
+  { href: withBase('/#sobre-nosotros'), section: 'sobre-nosotros', label: 'Sobre nosotros' },
 ];
 ---
 
@@ -26,7 +26,7 @@ const links = [
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo / Marca -->
-      <a href={withBase('/')} class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] transition-colors flex items-center gap-2">
+      <a href={withBase('/#inicio')} class="text-xl font-bold text-[#073642] dark:text-[#eee8d5] transition-colors flex items-center gap-2">
         {isRealValue(siteConfig.logoPath) && (
           <>
             <img
@@ -53,20 +53,19 @@ const links = [
         {links.map((link) => (
           <a
             href={link.href}
-            class:list={[
-              'text-sm font-medium transition-colors',
-              currentPath === link.href || currentPath === link.raw
-                ? 'text-[#268bd2]'
-                : 'text-[#657b83] hover:text-[#073642] dark:text-[#93a1a1] dark:hover:text-[#eee8d5]',
-            ]}
+            data-nav-section={link.section}
+            data-nav-variant="desktop-link"
+            class="text-sm font-medium transition-colors text-[#657b83] hover:text-[#073642] dark:text-[#93a1a1] dark:hover:text-[#eee8d5]"
           >
             {link.label}
           </a>
         ))}
 
         <a
-          href={withBase('/contacto/')}
-          class="ml-1 inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-colors shadow-xs"
+          href={withBase('/#contacto')}
+          data-nav-section="contacto"
+          data-nav-variant="cta"
+          class="ml-1 inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-all shadow-xs"
         >
           Contactar
         </a>
@@ -106,19 +105,18 @@ const links = [
       {links.map((link) => (
         <a
           href={link.href}
-          class:list={[
-            'block px-3 py-2 rounded-xl text-base font-medium transition-colors',
-            currentPath === link.href || currentPath === link.raw
-              ? 'text-[#268bd2] bg-[#eee8d5] dark:bg-[#002b36]'
-              : 'text-[#586e75] hover:text-[#073642] hover:bg-[#eee8d5]/60 dark:text-[#93a1a1] dark:hover:text-[#eee8d5] dark:hover:bg-[#002b36]/60',
-          ]}
+          data-nav-section={link.section}
+          data-nav-variant="mobile-link"
+          class="block px-3 py-2 rounded-xl text-base font-medium transition-colors text-[#586e75] hover:text-[#073642] hover:bg-[#eee8d5]/60 dark:text-[#93a1a1] dark:hover:text-[#eee8d5] dark:hover:bg-[#002b36]/60"
         >
           {link.label}
         </a>
       ))}
       <a
-        href={withBase('/contacto/')}
-        class="block mt-2 text-center px-4 py-2.5 text-sm font-medium text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-colors shadow-xs"
+        href={withBase('/#contacto')}
+        data-nav-section="contacto"
+        data-nav-variant="cta"
+        class="block mt-2 text-center px-4 py-2.5 text-sm font-medium text-white bg-[#268bd2] rounded-xl hover:bg-[#1f73ad] transition-all shadow-xs"
       >
         Contactar
       </a>
@@ -132,6 +130,13 @@ const links = [
   const iconOpen = document.getElementById('menu-icon-open');
   const iconClose = document.getElementById('menu-icon-close');
 
+  function closeMobileMenu() {
+    btn?.setAttribute('aria-expanded', 'false');
+    menu?.classList.add('hidden');
+    iconOpen?.classList.remove('hidden');
+    iconClose?.classList.add('hidden');
+  }
+
   btn?.addEventListener('click', () => {
     const expanded = btn.getAttribute('aria-expanded') === 'true';
     btn.setAttribute('aria-expanded', String(!expanded));
@@ -139,4 +144,89 @@ const links = [
     iconOpen?.classList.toggle('hidden');
     iconClose?.classList.toggle('hidden');
   });
+
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  // Resaltado de enlace activo según sección visible (solo en página única)
+  const navTargets = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-section]'));
+  const observedIds = ['inicio', 'situaciones', 'servicios', 'evidencia', 'sobre-nosotros', 'contacto'];
+  const observedElements = observedIds
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  const desktopInactive = ['text-[#657b83]', 'hover:text-[#073642]', 'dark:text-[#93a1a1]', 'dark:hover:text-[#eee8d5]'];
+  const desktopActive = ['text-[#268bd2]'];
+  const mobileInactive = ['text-[#586e75]', 'hover:text-[#073642]', 'hover:bg-[#eee8d5]/60', 'dark:text-[#93a1a1]', 'dark:hover:text-[#eee8d5]', 'dark:hover:bg-[#002b36]/60'];
+  const mobileActive = ['text-[#268bd2]', 'bg-[#eee8d5]', 'dark:bg-[#002b36]'];
+
+  let currentActive: string | null = null;
+
+  function setActiveSection(sectionId: string | null) {
+    if (currentActive === sectionId) return;
+    currentActive = sectionId;
+
+    navTargets.forEach((el) => {
+      const target = el.dataset.navSection;
+      const variant = el.dataset.navVariant;
+      const isActive = sectionId !== null && target === sectionId;
+
+      if (isActive) {
+        el.setAttribute('aria-current', 'location');
+      } else {
+        el.removeAttribute('aria-current');
+      }
+
+      if (variant === 'desktop-link') {
+        el.classList.remove(...(isActive ? desktopInactive : desktopActive));
+        el.classList.add(...(isActive ? desktopActive : desktopInactive));
+      } else if (variant === 'mobile-link') {
+        el.classList.remove(...(isActive ? mobileInactive : mobileActive));
+        el.classList.add(...(isActive ? mobileActive : mobileInactive));
+      } else if (variant === 'cta') {
+        el.classList.toggle('ring-2', isActive);
+        el.classList.toggle('ring-[#268bd2]/50', isActive);
+        el.classList.toggle('ring-offset-2', isActive);
+        el.classList.toggle('ring-offset-[#fdf6e3]', isActive);
+        el.classList.toggle('dark:ring-offset-[#002b36]', isActive);
+      }
+    });
+  }
+
+  if (observedElements.length > 0 && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (id === 'inicio' || id === 'situaciones') {
+              setActiveSection(null);
+            } else {
+              setActiveSection(id);
+            }
+          }
+        }
+      },
+      {
+        rootMargin: '-20% 0px -65% 0px',
+        threshold: 0,
+      }
+    );
+
+    observedElements.forEach((el) => observer.observe(el));
+
+    const contactoEl = document.getElementById('contacto');
+    if (contactoEl) {
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 24) {
+            setActiveSection('contacto');
+          }
+        },
+        { passive: true }
+      );
+    }
+  }
 </script>

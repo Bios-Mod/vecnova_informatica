@@ -28,6 +28,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 html, body {
   overflow-x: hidden;
   font-family: var(--font-sans, 'Space Grotesk', sans-serif);

@@ -34,7 +34,7 @@ gsap.registerPlugin(ScrollTrigger);
 /**
  * Marca el documento como JS-activo para que los estilos de ocultación
  * de .gs_reveal solo se apliquen con JavaScript disponible.
- * Sin JS, los elementos permanecen visibles (ajuste 4).
+ * Sin JS, los elementos permanecen visibles.
  */
 document.documentElement.classList.add('js-enabled');
 
@@ -45,7 +45,6 @@ document.documentElement.classList.add('js-enabled');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (prefersReducedMotion) {
-  // Mostrar todos los elementos sin animación
   gsap.utils.toArray('.gs_reveal').forEach(function (elem) {
     gsap.set(/** @type {Element} */ (elem), { autoAlpha: 1, x: 0, y: 0 });
   });
@@ -54,7 +53,7 @@ if (prefersReducedMotion) {
   });
 } else {
   /**
-   * Animación de entrada inicial con difuminado progresivo para la cabecera (pantallazo 1)
+   * Animación de entrada inicial con difuminado progresivo para la cabecera (#inicio)
    */
   const heroElements = gsap.utils.toArray('.hero-blur-in');
   if (heroElements.length > 0) {
@@ -72,16 +71,13 @@ if (prefersReducedMotion) {
       }
     );
   }
-  /**
-   * Determina la dirección de entrada y el desplazamiento del elemento.
-   * En pantallas estrechas (< 768px), las animaciones laterales pasan a
-   * verticales para evitar overflow horizontal.
-   */
-  function animateFrom(elem, direction) {
-    direction = direction || 1;
-    var x = 0,
-        y = direction * 100;
 
+  /**
+   * Revela cada bloque una sola vez desde izquierda/derecha (en móvil vertical).
+   */
+  function animateFrom(elem) {
+    var x = 0;
+    var y = 100;
     var isMobile = window.innerWidth < 768;
 
     if (!isMobile && elem.classList.contains('gs_reveal_fromLeft')) {
@@ -95,29 +91,73 @@ if (prefersReducedMotion) {
     elem.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
     elem.style.opacity = '0';
 
-    gsap.fromTo(elem, { x: x, y: y, autoAlpha: 0 }, {
-      duration: 1.9,
-      x: 0,
-      y: 0,
-      autoAlpha: 1,
-      ease: 'power3.out',
-      overwrite: 'auto'
-    });
-  }
-
-  function hide(elem) {
-    gsap.set(elem, { autoAlpha: 0 });
+    gsap.fromTo(
+      elem,
+      { x: x, y: y, autoAlpha: 0 },
+      {
+        duration: 1.9,
+        x: 0,
+        y: 0,
+        autoAlpha: 1,
+        ease: 'power3.out',
+        overwrite: 'auto',
+        clearProps: 'transform'
+      }
+    );
   }
 
   gsap.utils.toArray('.gs_reveal').forEach(function (elem) {
-    hide(elem);
+    const el = /** @type {HTMLElement} */ (elem);
+    let revealed = false;
+
+    function revealOnce(immediate) {
+      if (revealed) return;
+      revealed = true;
+      if (immediate) {
+        gsap.set(el, { autoAlpha: 1, x: 0, y: 0, clearProps: 'transform' });
+      } else {
+        animateFrom(el);
+      }
+    }
+
+    // Si el elemento ya está en el viewport o por encima al iniciar (p. ej. entrada directa con #ancla)
+    const initialRect = el.getBoundingClientRect();
+    if (initialRect.bottom < 0) {
+      revealOnce(true);
+      return;
+    }
+    if (initialRect.top <= window.innerHeight * 0.88) {
+      revealOnce(false);
+      return;
+    }
+
+    gsap.set(el, { autoAlpha: 0 });
 
     ScrollTrigger.create({
-      trigger: /** @type {Element} */ (elem),
-      start: 'top 78%',
-      onEnter: function () { animateFrom(/** @type {Element} */ (elem)); },
-      onEnterBack: function () { animateFrom(/** @type {Element} */ (elem), -1); },
-      onLeave: function () { hide(/** @type {Element} */ (elem)); }
+      trigger: el,
+      start: 'top 85%',
+      once: true,
+      onEnter: function () {
+        revealOnce(false);
+      },
+      onRefresh: function (self) {
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < 0) {
+          revealOnce(true);
+        } else if (self.progress > 0 || rect.top <= window.innerHeight * 0.88) {
+          revealOnce(false);
+        }
+      }
+    });
+  });
+
+  window.addEventListener('load', function () {
+    ScrollTrigger.refresh();
+  });
+
+  window.addEventListener('hashchange', function () {
+    requestAnimationFrame(function () {
+      ScrollTrigger.refresh();
     });
   });
 }
