@@ -110,5 +110,61 @@ const shouldNoindex = noindex || !siteConfig.isLaunch;
     </div>
 
     <Footer />
+
+    <!-- Manejador único de desplazamiento suave a anclas con compensación de barra fija (64px) -->
+    <script>
+      const FIXED_HEADER_HEIGHT = 64;
+
+      document.addEventListener('click', (e) => {
+        const eventTarget = e.target;
+        if (!(eventTarget instanceof Element)) return;
+
+        const anchor = eventTarget.closest('a[href]');
+        if (!(anchor instanceof HTMLAnchorElement)) return;
+
+        const rawHref = anchor.getAttribute('href');
+        if (!rawHref || (!rawHref.startsWith('#') && !rawHref.startsWith('/#') && !rawHref.includes('#'))) {
+          return;
+        }
+
+        let targetUrl: URL;
+        try {
+          targetUrl = new URL(anchor.href, window.location.href);
+        } catch {
+          return;
+        }
+
+        const normalizePath = (p: string) => p.replace(/\/+$/, '') || '/';
+        if (
+          targetUrl.origin !== window.location.origin ||
+          normalizePath(targetUrl.pathname) !== normalizePath(window.location.pathname) ||
+          !targetUrl.hash
+        ) {
+          return;
+        }
+
+        const targetId = decodeURIComponent(targetUrl.hash.slice(1));
+        const sectionEl = document.getElementById(targetId);
+        if (!sectionEl) return;
+
+        e.preventDefault();
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const targetTop = Math.max(
+          0,
+          sectionEl.getBoundingClientRect().top + window.scrollY - FIXED_HEADER_HEIGHT
+        );
+
+        window.scrollTo({
+          top: targetTop,
+          behavior: prefersReduced ? 'auto' : 'smooth',
+        });
+
+        const nextUrl = `${targetUrl.pathname}${targetUrl.hash}`;
+        if (window.location.pathname + window.location.hash !== nextUrl) {
+          history.pushState(null, '', nextUrl);
+        }
+      });
+    </script>
   </body>
 </html>
