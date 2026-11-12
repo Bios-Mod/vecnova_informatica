@@ -46,8 +46,8 @@ const TECH_ROW_2 = [
 ---
 
 <BaseLayout
-  title="Proyectos técnicos y arquitectura de referencia"
-  description="Fichas técnicas con código real, auditorías reproducibles (Lynis 88/90), arquitectura serverless y tecnologías implementadas."
+  title="Evidencia técnica y arquitectura de referencia"
+  description={`Evidencia técnica de ${siteConfig.name} con código real, auditorías reproducibles (Lynis 88/90), arquitectura serverless y tecnologías implementadas.`}
 >
   <!-- Red de nodos ambiental de fondo en toda la web -->
   <NetworkNodes />
@@ -57,7 +57,7 @@ const TECH_ROW_2 = [
     <!-- Cabecera de Proyectos: Sobria, centrada y con entrada suave -->
     <header class="py-16 sm:py-24 text-center max-w-3xl mx-auto">
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] leading-tight hero-blur-in transition-colors">
-        Proyectos y tecnologías
+        Evidencia técnica y tecnologías
       </h1>
 
       <!-- Navegación rápida por secciones (2 accesos directos estilo dock) -->
@@ -66,7 +66,7 @@ const TECH_ROW_2 = [
           href="#proyectos"
           class="nav-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#073642] hover:bg-[#fdf6e3] hover:text-[#268bd2] dark:text-[#eee8d5] dark:hover:bg-[#002b36] dark:hover:text-[#2aa198] hover:shadow-[0_1px_3px_rgba(7,54,66,0.06)] dark:hover:shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-all"
         >
-          Proyectos de referencia
+          Evidencia técnica
         </a>
         <a
           href="#tecnologias"
@@ -77,14 +77,14 @@ const TECH_ROW_2 = [
       </nav>
     </header>
 
-    <!-- Momento 1: Fichas de proyectos — Entra desde la izquierda con GSAP -->
+    <!-- Momento 1: Fichas de evidencia técnica — Entra desde la izquierda con GSAP -->
     <section id="proyectos" class="min-h-[75vh] flex flex-col justify-center py-20 border-t-2 border-dashed border-[#d8d0bb] dark:border-[#0a4756] scroll-mt-20 gs_reveal gs_reveal_fromLeft">
       <div class="max-w-3xl mb-10">
         <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#073642] dark:text-[#eee8d5] transition-colors">
-          Proyectos de referencia
+          Evidencia técnica
         </h2>
         <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
-          Infraestructuras funcionales con código auditable, configuración reproducible y resultados medibles.
+          Implementaciones de {siteConfig.name} con código auditable, configuración reproducible y resultados medibles.
         </p>
       </div>
 
@@ -102,7 +102,7 @@ const TECH_ROW_2 = [
           <TerminalCard bodyClass="p-5 sm:p-6 flex flex-col justify-center">
             <div class="mb-2.5">
               <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#2aa198]/15 dark:bg-[#2aa198]/20 text-[#2aa198] border border-[#2aa198]/30">
-                Implementación de referencia
+                Evidencia técnica
               </span>
             </div>
 
@@ -111,7 +111,7 @@ const TECH_ROW_2 = [
             </h3>
 
             <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
-              Aprovisionamiento y bastionado automatizado de servidores Linux (Ubuntu 24.04 LTS) en entornos virtualizados locales y en AWS. Diseñado bajo el principio de defensa en profundidad, coordina cortafuegos perimetral con UFW, baneo reactivo de intrusiones con Fail2Ban, confinamiento en el kernel mediante AppArmor, registro forense con auditd e integridad de archivos con AIDE. La administración remota se realiza mediante túnel WireGuard VPN cifrado, y el nivel de endurecimiento está verificado mediante auditoría automatizada con Lynis, alcanzando un índice de 88 sobre 100 en máquina local y 90 sobre 100 en AWS EC2.
+              Aprovisionamiento y bastionado automatizado (Terraform y Ansible) de servidores Linux (Ubuntu 24.04 LTS) en entornos virtualizados locales y en AWS. Diseñado bajo el principio de defensa en profundidad, coordina cortafuegos perimetral con UFW, baneo reactivo de intrusiones con Fail2Ban, confinamiento en el kernel mediante AppArmor, registro forense con auditd e integridad de archivos con AIDE. La administración remota se realiza mediante túnel WireGuard VPN cifrado, y el nivel de endurecimiento está verificado mediante auditoría automatizada con Lynis, alcanzando un índice de 88 sobre 100 en máquina local y 90 sobre 100 en AWS EC2.
             </p>
           </TerminalCard>
         </a>
@@ -127,7 +127,7 @@ const TECH_ROW_2 = [
           <TerminalCard bodyClass="p-5 sm:p-6 flex flex-col justify-center">
             <div class="mb-2.5">
               <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-semibold bg-[#2aa198]/15 dark:bg-[#2aa198]/20 text-[#2aa198] border border-[#2aa198]/30">
-                Implementación de referencia
+                Evidencia técnica
               </span>
             </div>
 
@@ -162,7 +162,7 @@ const TECH_ROW_2 = [
               </h3>
 
               <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
-                Caso de implementación real de arquitectura estática serverless en AWS: generación estática desacoplada con Astro y Tailwind CSS alojada en un bucket Amazon S3 privado, distribuida globalmente mediante CloudFront y protegida con Origin Access Control (OAC). Funciona como demostración técnica de alta disponibilidad, cifrado TLS de extremo a extremo y mantenimiento de servidores nulo con un coste operativo residual (~0,05–2 USD/mes).
+                Caso de implementación real de arquitectura estática serverless en AWS: generación estática desacoplada con Astro y Tailwind CSS alojada en un bucket Amazon S3 privado, distribuida globalmente mediante CloudFront y protegida con Origin Access Control (OAC). Funciona como demostración técnica de alta disponibilidad, cifrado TLS de extremo a extremo y mantenimiento de servidores nulo con un coste operativo residual.
               </p>
             </TerminalCard>
           </a>
@@ -196,7 +196,7 @@ const TECH_ROW_2 = [
           Tecnologías
         </h2>
         <p class="mt-3 text-lg text-[#586e75] dark:text-[#93a1a1] transition-colors">
-          Herramientas y tecnologías que integran nuestros proyectos de infraestructura, contenedores y automatización.
+          Herramientas y tecnologías integradas en las implementaciones de infraestructura, contenedores y automatización de {siteConfig.name}.
         </p>
       </div>
 
