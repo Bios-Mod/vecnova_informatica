@@ -35,6 +35,7 @@ const TECH_ROW_1 = [
 ];
 
 const TECH_ROW_2 = [
+  { icon: 'traefik', nombre: 'Traefik' },
   { icon: 'nginx', nombre: 'Nginx' },
   { icon: 'prometheus', nombre: 'Prometheus' },
   { icon: 'grafana', nombre: 'Grafana' },
@@ -138,7 +139,7 @@ const TECH_ROW_2 = [
             </h3>
 
             <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
-              Aprovisionamiento y bastionado automatizado (Terraform y Ansible) de servidores Linux (Ubuntu 24.04 LTS) en entornos virtualizados locales y en AWS. Diseñado bajo el principio de defensa en profundidad, coordina cortafuegos perimetral con UFW, baneo reactivo de intrusiones con Fail2Ban, confinamiento en el kernel mediante AppArmor, registro forense con auditd e integridad de archivos con AIDE. La administración remota se realiza mediante túnel WireGuard VPN cifrado, y el nivel de endurecimiento está verificado mediante auditoría automatizada con Lynis, alcanzando un índice de 88 sobre 100 en máquina local y 90 sobre 100 en AWS EC2.
+              Aprovisionamiento y bastionado automatizado (Terraform y Ansible) de servidores Linux (Ubuntu 24.04 LTS) en entornos virtualizados locales y en AWS. Diseñado bajo el principio de defensa en profundidad, coordina cortafuegos perimetral con UFW, baneo reactivo de intrusiones con Fail2Ban, confinamiento en el kernel mediante AppArmor, registro forense con auditd e integridad de archivos con AIDE. Incluye un stack de monitorización continua con Prometheus, Grafana, node_exporter y blackbox_exporter para supervisar la salud y el rendimiento de la infraestructura. La administración remota se realiza mediante túnel WireGuard VPN cifrado, y el nivel de endurecimiento está verificado mediante auditoría automatizada con Lynis, alcanzando un índice de 88 sobre 100 en máquina local y 90 sobre 100 en AWS EC2.
             </p>
           </TerminalCard>
         </a>
@@ -163,7 +164,7 @@ const TECH_ROW_2 = [
             </h3>
 
             <p class="text-[#2b424a] dark:text-[#839496] text-sm sm:text-base leading-relaxed transition-colors">
-              Empaquetado y aislamiento de servicios en contenedores Docker reproducibles, garantizando consistencia absoluta entre entornos de desarrollo y producción. Incorpora un proxy inverso Nginx como punto único de entrada seguro para terminación TLS y buffering de tráfico, junto con un stack de observabilidad continua basado en Prometheus y Grafana para monitorizar en tiempo real el consumo de recursos y la salud del sistema. La arquitectura incluye manifiestos declarativos y charts de Helm preparados para la orquestación elástica en Kubernetes.
+              Empaquetado y aislamiento de servicios en contenedores Docker reproducibles, garantizando consistencia absoluta entre entornos de desarrollo y producción. Incorpora un proxy inverso Traefik como punto único de entrada seguro para terminación TLS y enrutamiento dinámico de servicios, junto con un stack de observabilidad continua basado en Prometheus y Grafana para monitorizar en tiempo real el consumo de recursos y la salud del sistema. La arquitectura incluye manifiestos declarativos y charts de Helm preparados para la orquestación elástica en Kubernetes sobre Amazon EKS.
             </p>
           </TerminalCard>
         </a>

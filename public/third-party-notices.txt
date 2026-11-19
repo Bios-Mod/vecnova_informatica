@@ -105,6 +105,10 @@ The brand logotypes included in the technology showcase (src/components/tech-ico
   Owner:    Red Hat, Inc.
   Terms:    Red Hat Trademark Guidelines (https://www.redhat.com/en/about/trademark-guidelines)
 
+* Traefik:
+  Owner:    Traefik Labs (Containous SAS)
+  Terms:    Traefik Labs Brand & Trademark Guidelines (https://traefik.io/brand/)
+
 * NGINX:
   Owner:    F5, Inc.
   Terms:    F5 Trademark Usage (https://www.f5.com/company/policies/trademarks)
